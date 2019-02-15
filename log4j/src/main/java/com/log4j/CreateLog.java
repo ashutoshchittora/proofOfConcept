@@ -2,16 +2,11 @@ package com.log4j;
 
 import java.io.File;
 import java.util.Properties;
-
 import org.apache.log4j.Appender;
 import org.apache.log4j.ConsoleAppender;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
 
-/**
- * Hello world!
- *
- */
 public class CreateLog {
 
 	static Logger logger = Logger.getLogger(CreateLog.class.getName());
@@ -27,11 +22,11 @@ public class CreateLog {
 		Properties props = new Properties();
 		props.setProperty("log4j.appender.file.File", LogFilePath);
         PropertyConfigurator.configure(props);*/
-        logger.debug("this is a debug log message");
         logger.info("this is a information log message");
+        logger.debug("this is a debug log message");
         logger.warn("this is a warning log message");
-        
-
+      
+                
     	/*Appender console = new ConsoleAppender();
     		Logger root = Logger.getRootLogger();
     		root.addAppender(console);
