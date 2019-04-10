@@ -43,7 +43,7 @@ public class LamdaExpressionJava8 {
 			}
 
 			public void newTicketCount(int countNew) {
-				System.out.println("--- movieAnnonymous created and Interface instantiated with annoymous class and method newTicketCount()--- "+countNew);
+				System.out.println("--- movieAnnonymous created and Interface instantiated with annoymous class and method newTicketCount()--- "+countNew);				
 				
 			}
 		};
