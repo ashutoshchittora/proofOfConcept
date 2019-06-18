@@ -153,6 +153,7 @@ public class LamdaExpressionJava8 {
 		                ));
 		
 		result1.forEach((k,v) -> System.out.println("Key = " + k + ", Value = " + v));
+				
 	}
 
 }
