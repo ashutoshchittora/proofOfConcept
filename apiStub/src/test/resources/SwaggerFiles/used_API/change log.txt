@@ -1,0 +1,165 @@
+18/09/2018
+1. Added legacyWorkflowStatus in all 3 levels
+2. Added asnDate in all 3 levels
+3. Changed data length of assetName from 50 to 100 under Spinset and Video
+4. Removed brandDescriptionPDP, lookAfterMe, productDetails, sizeAndFit from Colourway level
+5. Removed aboutMe from Colourway level
+6. Updated productDetails to mandatory under Product
+7. Added webCategoryID, isExclusive in Colourway level
+8. Updated commodityCode validity level from Colourway to Variant
+
+22/08/2018
+1. Updated BrandFacet to Optional field. (MDD update)
+2. Removed digitalSizeID as it is replaced by variantSizeID
+3. Added rmsRetailColourGroup, rmsRetailColourGroupID and plannedGoLiveDate at the Colourway level
+4. Added isLegacyEnriched
+5. Added data type and size for retailDepartmentID and retailDepartmentName
+6. Updated commodityCode to mandatory
+7. Updated size for productCode, fabricConstruction, supplierRef, supplierSize, brandFacet, sizeOrder
+
+13/07/2018
+**Product API Resource**
+1. Updated Asset ID as Integer
+2. Added externalAssetID (string) at Image/Spinset/Video Levels.
+3. Added Attribute Description/Data Type/Data Length to the attributes
+
+05/07/2018
+**Product API Resource**
+1. Renamed retailSizeID to variantSizeID
+2. Updated the data type for variantSizeID (previously known as retailSizeID) from string to number
+3. Modified the description of variantSizeID
+4. Updated the data type for retailSizeGroupID from string to number
+5. Added isReturnable at product level
+6. Added rmsStyleID at product level
+7. Added sizeDiffDescription at variant level
+8. Added sizeDiffID at variant level
+
+26/06/2018
+**Product API Resource**
+1. Removed productManagementComposition as it is descoped in MDD.
+2. Removed productManagementFitInfo, this will part of productAttributes section.
+3. Added Merchandising Season (Product), Packing Format(Product), Weight (Variant) as fields
+
+30/05/2018
+**Product API Resource**
+1. Updated commodityCode and countryOfManufacture back to strings from Array of Strings
+2. Removed legacyLookAfterMe (As we will only have single version ofcopy attributes)
+3. Removed islegacyEnriched - no use case
+4. Added lastUpdatedDateTime to variant Store Data
+5. Updated CustomerFriendlyColour and SupplierColour to mandatory attributes
+
+18/05/2018
+**Product API Resource**
+1. Added sequence to BuyTheLookGroup
+2. Updated commodityCode and countryOfManufacture to array of strings at colourway level.
+3. Added retailBusinessModelID at product Level.
+4. Added retailGroupID, retailGroupName, retailProductGroupID, retailProductGroupName, retailBuyingSubGroupID, retailBuyingSubGroup to retail hierarchy.
+5. Removed retailFitID as field, this will be a part of product attributes.
+6. Removed legacyWorkflowStatus(Product/colourway Level), retailProductRef  as this is descoped.
+7. Renamed careInstruction to legacyLookAfterMe to make it consistent with other copy attributes.
+8. Renamed retailBuyingDepartmentID/Name to legacyDepartmentID/Name and made them optional
+9. Updated supplierRef from array to a single valued field
+10.Updated EAN from array to a single valued field
+11.Update following from Optional to Mandatory
+	- CustomerColourwayTitle
+	- retailColourwayTitle
+	- retailDepartmentName
+	- RetailProductComposition
+	- retailProductTitle
+	- retailVariantTitle
+	- retailClassName
+	- retailSubClassName
+12.Update Images as array of object Image (Defect#-165207) raised by catalog
+13. Added Model ID, Model Name, Model Last Updated Date at colourway level
+14. updated Model tenure to ModelTenureUsageDate date time.
+15. Updated Model ID as array of number from array of String
+16. Added facetGender at product level.
+17. Added VariantStoreData at variant level and included retailStoreID, digitalStoreID, availableTOSellDate, DateOnSite, isOnQuery
+18. Added digitalSizeID, retailSizeID, retailSize, retailSizeGroupID and retailSizeGroup as per new size attributes
+19. Added retailReportingColourID and retailReportingColourID as per new colour attributes
+20. Updated colourwayID to Numeric in:
+	- Query Parameters
+	- Product Schema
+	- Shoot Ops Schema
+21. Updated following from Mandatory to Optional
+	- retailColourID
+	- brandSize
+	- brandSizeID
+	- refinementSizeID
+	- refinementSize
+	- sizeDescriptionID
+
+
+**Shoot Ops API Resource**
+1. Added Model Name and updated Model ID as Number
+2. Added isDeleted (boolean)
+
+16/03/2018
+**Product API Resource**
+1. Updated createDateTime to createdDateTime (Suggested by Product Catalog team)
+2. Updated lastUpdateDateTime to lastUpdatedDateTime (Suggested by Product Catalog team)
+3. Updated supportedLanguage to supportedLanguages (Suggested by Product Catalog team)
+4. Added sub brand name (Missed earlier)
+5. Removed legacyProductDetails, legacyAboutMe, legacySizeAndFit,  legacyBrandDescriptionPDP 
+
+****Product Group Resource*****
+Updated groupID to integer - as suggested by PCAT
+
+
+06/02/2018
+
+
+**Product API Resource**
+
+Updated occurrence for all the following from Mandatory to Optional:
+1. LegacyStyleID
+2. LegacyOptionID
+3. LegacySKUID
+4. legacyWorkflowStatus
+5. legacyCategoryID
+6. legacyCategoryName
+7. legacyDivision
+8. legacyDivisionID
+9. RetailProductTitle
+10. RetailColourwayTitle
+11. CustomerColourwayTitle
+12. SKUID
+13. retailVariantTitle 
+14. SupplierRef
+
+Updated occurrence for all the following from Optional to Mandatory:
+1. retailProductRef
+2. retailStyleID
+3. retailClassID
+4. retailSubClassID
+5. retailDepartmentID
+6. retailOptionalID 
+7. retailSKUID
+
+1. Added buyThelookGroup at colourway level.
+2. Added commodityCode at colourway level.
+3. Added countryOfManufacture at colourway level.
+4. Added fabricComposition at colourway level.
+5. Added colourwayStoreData object to accomodate store level information, StoreID, dateOnsite, availableToSellDate
+6. Moved availableToSellDate from colourway level to colourwayStoredata level
+7. Added following at colourway level as part of Option Level Copy chnage:
+	-productDetails
+	-sizeAndFit
+	-lookAfterMe
+	-aboutMe
+	-brandDescriptionPDP
+
+***** Product groups ****
+1. Added retailGroupID as string 
+2. Aded legacyGroupID as integer
+3. Removed isMutiAssociation from groupType - No use case
+4. Renamed groupPoductRef to groupComponents
+5. Included ProductID as part of group components
+6. Updated lastUpdateDateTime as mandatory
+7. Removed productManagementLevel from group components- No use case
+
+
+**Look Up API resource**
+
+Updated the Data Types of retail Ids (option/Style/SKU) to String 
+UPdated the Sample for Look Up ID Collection

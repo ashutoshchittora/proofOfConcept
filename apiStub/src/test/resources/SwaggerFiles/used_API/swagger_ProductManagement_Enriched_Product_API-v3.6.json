@@ -1,0 +1,1898 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "description" : "This definition is to support working with the product management enriched product. ",
+    "version" : "3.2",
+    "title" : "Product Management Enriched Product API"
+  },
+  "host" : "api.asos.com",
+  "basePath" : "/productmanagement/product/v1",
+  "schemes" : [ "https" ],
+  "consumes" : [ "application/json" ],
+  "produces" : [ "application/json" ],
+  "security" : [ {
+    "HTTP_BASIC" : [ ]
+  } ],
+  "paths" : {
+    "/products/{productID}" : {
+      "get" : {
+        "summary" : "Fetch Enriched Product",
+        "description" : "The product ID endpoint will return a single product object containing a collection of its colourways and variants.  This resource is typically used when full product details are required for a single product",
+        "parameters" : [ {
+          "name" : "productStatus",
+          "in" : "query",
+          "required" : false,
+          "type" : "string",
+          "description" : "Specifies if the product is in a state to be published from the ProductManagement service",
+          "x-example" : "Sell"
+        }, {
+          "name" : "productLanguage",
+          "in" : "query",
+          "required" : false,
+          "type" : "string",
+          "description" : "Specifies the language of the data returned",
+          "default" : "\"en-GB\""
+        }, {
+          "name" : "asos-cid",
+          "in" : "header",
+          "required" : false,
+          "type" : "string",
+          "description" : "Correlation ID (GUID) to aid correlation between API calls.\nFor more details please refer the latest version of ASOS REST guidelines"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "schema" : {
+              "$ref" : "#/definitions/Product"
+            },
+            "headers" : {
+              "asos-cid" : {
+                "type" : "string",
+                "description" : "Correlation ID (GUID) to aid correlation between API calls"
+              },
+              "asos-TimeToProcessMilliseconds" : {
+                "type" : "string",
+                "description" : "Amount of time in milliseconds it took to process the request"
+              }
+            }
+          },
+          "400" : {
+            "description" : "Bad Request",
+            "schema" : {
+              "$ref" : "#/definitions/Error"
+            },
+            "examples" : {
+              "application/json" : "  \"error\": {    \"errorCode\": \"PM_PRODUCT_BADREQUEST\",    \"parameterName\": \"Name of the request parameter\",    \"errorMessage\": \"Invalid Parameter Value\"  }"
+            },
+            "headers" : {
+              "asos-cid" : {
+                "type" : "string",
+                "description" : "Correlation ID (GUID) to aid correlation between API calls"
+              }
+            }
+          },
+          "404" : {
+            "description" : "Resource Not Found",
+            "schema" : {
+              "$ref" : "#/definitions/Error"
+            },
+            "examples" : {
+              "application/json" : "  \"error\": {    \"errorCode\": \"PM_PRODUCT_NOTFOUND\",    \"errorMessage\": \"ProductID passed does not exist\"  }"
+            },
+            "headers" : {
+              "asos-cid" : {
+                "type" : "string",
+                "description" : "Correlation ID (GUID) to aid correlation between API calls"
+              }
+            }
+          },
+          "500" : {
+            "description" : "Internal Server Error",
+            "schema" : {
+              "$ref" : "#/definitions/Error"
+            },
+            "examples" : {
+              "application/json" : "  \"error\": {    \"errorCode\": \"PM_PRODUCT_INTERNALSERVERERROR\",    \"errorMessage\": \"Product Management Product Service is not available\"  }"
+            },
+            "headers" : {
+              "asos-cid" : {
+                "type" : "string",
+                "description" : "Correlation ID (GUID) to aid correlation between API calls"
+              }
+            }
+          }
+        }
+      },
+      "parameters" : [ {
+        "name" : "productID",
+        "in" : "path",
+        "required" : true,
+        "type" : "number",
+        "description" : "A Product level ID"
+      } ]
+    },
+    "/products" : {
+      "get" : {
+        "summary" : "Fetch multiple enriched Products, Colourways or Variants",
+        "description" : "This method will return single or multiple full product objects containing specific products, colourways or variants.  This resource is to be used when  multiple products, colourways or variants are to be requested",
+        "parameters" : [ {
+          "name" : "productIDs",
+          "in" : "query",
+          "required" : false,
+          "type" : "array",
+          "description" : "List of Product level ID's",
+          "items" : {
+            "type" : "number"
+          }
+        }, {
+          "name" : "productLanguage",
+          "in" : "query",
+          "required" : false,
+          "type" : "string",
+          "description" : "Specifies the language of the data requested",
+          "default" : "\"en-GB\""
+        }, {
+          "name" : "colourwayIDs",
+          "in" : "query",
+          "required" : false,
+          "type" : "array",
+          "description" : "A list of Colourway level ID's",
+          "items" : {
+            "type" : "number"
+          }
+        }, {
+          "name" : "variantIDs",
+          "in" : "query",
+          "required" : false,
+          "type" : "array",
+          "description" : "A list of Variant level ID's",
+          "items" : {
+            "type" : "number"
+          }
+        }, {
+          "name" : "status",
+          "in" : "query",
+          "required" : false,
+          "type" : "string",
+          "description" : "Specifies the status value which needs to be applied to the product, colourway and variant. Maps to productStatus, colourwayStatus and variantStatus"
+        }, {
+          "name" : "asos-cid",
+          "in" : "header",
+          "required" : false,
+          "type" : "string",
+          "description" : "Correlation ID (GUID) to aid correlation between API calls"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "An array of products",
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/definitions/Product"
+              }
+            },
+            "headers" : {
+              "asos-cid" : {
+                "type" : "string",
+                "description" : "Correlation ID (GUID) to aid correlation between API calls"
+              },
+              "asos-TimeToProcessMilliseconds" : {
+                "type" : "string",
+                "description" : "Amount of time in milliseconds it took to process the request"
+              }
+            }
+          },
+          "400" : {
+            "description" : "Bad Request",
+            "schema" : {
+              "$ref" : "#/definitions/Error"
+            },
+            "examples" : {
+              "application/json" : "\"error\": {    \"errorCode\": \"PM_PRODUCT_BADREQUEST\",    \"parameterName\": \"Name of the request parameter\",    \"errorMessage\": \"Invalid Parameter Value\"  }"
+            },
+            "headers" : {
+              "asos-cid" : {
+                "type" : "string",
+                "description" : "Correlation ID (GUID) to aid correlation between API calls"
+              }
+            }
+          },
+          "500" : {
+            "description" : "Internal Server Error",
+            "schema" : {
+              "$ref" : "#/definitions/Error"
+            },
+            "examples" : {
+              "application/json" : "\"error\": {    \"errorCode\": \"PM_PRODUCT_INTERNALSERVERERROR\",    \"errorMessage\": \"Product Management Product Service is not available\"  }"
+            },
+            "headers" : {
+              "asos-cid" : {
+                "type" : "string",
+                "description" : "Correlation ID (GUID) to aid correlation between API calls"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/shootOps/{colourwayID}" : {
+      "get" : {
+        "summary" : "Fetches the production Shoot information for the provided colourwayID",
+        "description" : "This method will return colourway Production Shoot object containing a colourwayID along with the related production shoot information.",
+        "parameters" : [ {
+          "name" : "asos-cid",
+          "in" : "header",
+          "required" : false,
+          "type" : "number",
+          "description" : "Correlation ID (GUID) to aid correlation between API calls"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "schema" : {
+              "$ref" : "#/definitions/ShootOps"
+            },
+            "headers" : {
+              "asos-cid" : {
+                "type" : "string",
+                "description" : "Correlation ID (GUID) to aid correlation between API calls"
+              },
+              "asos-TimeToProcessMilliseconds" : {
+                "type" : "string",
+                "description" : "Amount of time in milliseconds it took to process the request"
+              }
+            }
+          },
+          "400" : {
+            "description" : "Bad Request",
+            "schema" : {
+              "$ref" : "#/definitions/Error_ShootOps"
+            },
+            "examples" : {
+              "application/json" : "\"error\": {    \"errorCode\": \"PM_SHOOT_OPS_BADREQUEST\",    \"parameterName\": \"Name of the request parameter\",    \"errorMessage\": \"Invalid Parameter Value\"  }"
+            },
+            "headers" : {
+              "asos-cid" : {
+                "type" : "string",
+                "description" : "Correlation ID (GUID) to aid correlation between API calls"
+              }
+            }
+          },
+          "404" : {
+            "description" : "Resource Not found",
+            "schema" : {
+              "$ref" : "#/definitions/Error_ShootOps"
+            },
+            "examples" : {
+              "application/json" : "\"error\": {    \"errorCode\": \"PM_SHOOT_OPS_NOTFOUND\",    \"errorMessage\": \"Shoot Ops information for the required ColourwayID does not exist\"  }"
+            },
+            "headers" : {
+              "asos-cid" : {
+                "type" : "string",
+                "description" : "Correlation ID (GUID) to aid correlation between API calls"
+              }
+            }
+          },
+          "500" : {
+            "description" : "Internal Server Error",
+            "schema" : {
+              "$ref" : "#/definitions/Error_ShootOps"
+            },
+            "examples" : {
+              "application/json" : " \"error\": {    \"errorCode\": \"PM_SHOOT_OPS_INTERNALSERVERERROR\",    \"errorMessage\": \"Product Management Shoot Ops Service is not available\"  }"
+            },
+            "headers" : {
+              "asos-cid" : {
+                "type" : "string",
+                "description" : "Correlation ID (GUID) to aid correlation between API calls"
+              }
+            }
+          }
+        }
+      },
+      "parameters" : [ {
+        "name" : "colourwayID",
+        "in" : "path",
+        "required" : true,
+        "type" : "number",
+        "description" : "This is the colour level ID for the product.",
+        "x-example" : 7472677.0
+      } ]
+    },
+    "/productGroups/{groupID}" : {
+      "get" : {
+        "summary" : "Fetches the product groups information for the provided groupID",
+        "parameters" : [ {
+          "name" : "asos-cid",
+          "in" : "header",
+          "required" : false,
+          "type" : "string",
+          "description" : "Correlation ID (GUID) to aid correlation between API calls"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "schema" : {
+              "$ref" : "#/definitions/ProductGroups"
+            },
+            "headers" : {
+              "asos-cid" : {
+                "type" : "string",
+                "description" : "Correlation ID (GUID) to aid correlation between API calls"
+              },
+              "asos-TimeToProcessMilliseconds" : {
+                "type" : "string",
+                "description" : "Amount of time in milliseconds it took to process the request"
+              }
+            }
+          },
+          "400" : {
+            "description" : "Bad Request",
+            "schema" : {
+              "$ref" : "#/definitions/Error_ProductGroups"
+            },
+            "examples" : {
+              "application/json" : "\"error\": {    \"errorCode\": \"PM_PRODUCT_GROUPS_BADREQUEST\",    \"parameterName\": \"Name of the request parameter\",    \"errorMessage\": \"Invalid Parameter Value\"  }"
+            },
+            "headers" : {
+              "asos-cid" : {
+                "type" : "string",
+                "description" : "Correlation ID (GUID) to aid correlation between API calls"
+              }
+            }
+          },
+          "404" : {
+            "description" : "Resource Not found",
+            "schema" : {
+              "$ref" : "#/definitions/Error_ProductGroups"
+            },
+            "examples" : {
+              "application/json" : "\"error\": {    \"errorCode\": \"PM_PRODUCT_GROUPS_NOTFOUND\",    \"errorMessage\": \"Product Group information for the required Group ID does not exist\"  }"
+            },
+            "headers" : {
+              "asos-cid" : {
+                "type" : "string",
+                "description" : "Correlation ID (GUID) to aid correlation between API calls"
+              }
+            }
+          },
+          "500" : {
+            "description" : "Internal Server Error",
+            "schema" : {
+              "$ref" : "#/definitions/Error_ProductGroups"
+            },
+            "examples" : {
+              "application/json" : " \"error\": {    \"errorCode\": \"PM_PRODUCT_GROUPS_INTERNALSERVERERROR\",    \"errorMessage\": \"Product Management Product Groups Service is not available\"  }"
+            },
+            "headers" : {
+              "asos-cid" : {
+                "type" : "string",
+                "description" : "Correlation ID (GUID) to aid correlation between API calls"
+              }
+            }
+          }
+        }
+      },
+      "parameters" : [ {
+        "name" : "groupID",
+        "in" : "path",
+        "required" : true,
+        "type" : "number",
+        "description" : "This is the unique identifier for each Product Group",
+        "x-example" : 12456.0
+      } ]
+    },
+    "/productLookUp" : {
+      "get" : {
+        "summary" : "Fetches the Equivalent Retail OR STEP IDs based upon the parameter passed",
+        "parameters" : [ {
+          "name" : "productID",
+          "in" : "query",
+          "required" : false,
+          "type" : "array",
+          "description" : "Unique Identifier at Product Level - PIM STEP ID",
+          "items" : {
+            "type" : "integer"
+          },
+          "x-example" : "7472677"
+        }, {
+          "name" : "retailStyleID",
+          "in" : "query",
+          "required" : false,
+          "type" : "array",
+          "description" : "The retail [style level] ID for the product",
+          "items" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "legacyStyleID",
+          "in" : "query",
+          "required" : false,
+          "type" : "array",
+          "description" : "Existing Merret Style ID",
+          "items" : {
+            "type" : "integer"
+          }
+        }, {
+          "name" : "colourwayID",
+          "in" : "query",
+          "required" : false,
+          "type" : "array",
+          "description" : "Unique Identifier at Colourway Level - PIM STEP ID",
+          "items" : {
+            "type" : "number"
+          },
+          "x-example" : "7472677"
+        }, {
+          "name" : "retailOptionID",
+          "in" : "query",
+          "required" : false,
+          "type" : "array",
+          "description" : "This is Unique Identifier at Option Level for TGR",
+          "items" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "legacyOptionID",
+          "in" : "query",
+          "required" : false,
+          "type" : "array",
+          "description" : "This is the combination of [style level] Merret ID and ColourCode and is used for sample scan in fashion gps",
+          "items" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "variantID",
+          "in" : "query",
+          "required" : false,
+          "type" : "array",
+          "description" : "Unique Identifier at Variant Level - PIM STEP ID",
+          "items" : {
+            "type" : "integer"
+          },
+          "x-example" : "974612"
+        }, {
+          "name" : "retailSKUID",
+          "in" : "query",
+          "required" : false,
+          "type" : "array",
+          "description" : "This is Unique Identifier at SKU Level for TGR",
+          "items" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "legacySKUID",
+          "in" : "query",
+          "required" : false,
+          "type" : "array",
+          "description" : "This is the Merret ID at a SKU level",
+          "items" : {
+            "type" : "integer"
+          }
+        }, {
+          "name" : "asos-cid",
+          "in" : "header",
+          "required" : false,
+          "type" : "string",
+          "description" : "Correlation ID (GUID) to aid correlation between API calls"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/definitions/ProductLookUp"
+              }
+            },
+            "headers" : {
+              "asos-cid" : {
+                "type" : "string",
+                "description" : "Correlation ID (GUID) to aid correlation between API calls"
+              },
+              "asos-TimeToProcessMilliseconds" : {
+                "type" : "string",
+                "description" : "Amount of time in milliseconds it took to process the request"
+              }
+            }
+          },
+          "400" : {
+            "description" : "Bad Request",
+            "schema" : {
+              "$ref" : "#/definitions/Error_ProductLookUp"
+            },
+            "examples" : {
+              "application/json" : "\"error\": {    \"errorCode\": \"PM_PRODUCT_LOOKUP_BADREQUEST\",    \"parameterName\": \"Name of the request parameter\",    \"errorMessage\": \"Invalid Parameter Value\"  }"
+            },
+            "headers" : {
+              "asos-cid" : {
+                "type" : "string",
+                "description" : "Correlation ID (GUID) to aid correlation between API calls"
+              }
+            }
+          },
+          "500" : {
+            "description" : "Internal Server Error",
+            "schema" : {
+              "$ref" : "#/definitions/Error_ProductLookUp"
+            },
+            "examples" : {
+              "application/json" : " \"error\": {    \"errorCode\": \"PM_PRODUCT_LOOKUP_INTERNALSERVERERROR\",    \"errorMessage\": \"Product Management Product Groups Service is not available\"  }"
+            },
+            "headers" : {
+              "asos-cid" : {
+                "type" : "string",
+                "description" : "Correlation ID (GUID) to aid correlation between API calls"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "securityDefinitions" : {
+    "HTTP_BASIC" : {
+      "description" : "All GET methods are public, meaning that *you can read all the data*. Write operations require authentication and therefore are forbidden to the general public.",
+      "type" : "basic"
+    }
+  },
+  "definitions" : {
+    "Error" : {
+      "type" : "object",
+      "required" : [ "errorCode" ],
+      "properties" : {
+        "errorCode" : {
+          "type" : "string",
+          "description" : "Error Code",
+          "enum" : [ "PM_PRODUCT_BADREQUEST", "PM_PRODUCT_NOTFOUND", "PM_PRODUCT_INTERNALSERVERERROR" ]
+        },
+        "parameterName" : {
+          "type" : "string",
+          "description" : "Parameter Name"
+        },
+        "errorMessage" : {
+          "type" : "string",
+          "description" : "This is an optional developer error description"
+        }
+      },
+      "example" : "  \"error\": {    \"errorCode\": \"PM_PRODUCT_XXXX\",    \"parameterName\": \"Name of the request parameter\",    \"errorMessage\": \"Description of the error\"  }"
+    },
+    "Error_ShootOps" : {
+      "type" : "object",
+      "required" : [ "errorCode" ],
+      "properties" : {
+        "errorCode" : {
+          "type" : "string",
+          "description" : "Error Code",
+          "enum" : [ "PM_SHOOT_OPS_BADREQUEST", "PM_SHOOT_OPS_NOTFOUND", "PM_SHOOT_OPS_INTERNALSERVERERROR" ]
+        },
+        "parameterName" : {
+          "type" : "string",
+          "description" : "Parameter Name"
+        },
+        "errorMessage" : {
+          "type" : "string",
+          "description" : "This is an optional developer error description"
+        }
+      },
+      "description" : "Defines the error class for Shoot Ops.",
+      "example" : "  \"error\": {    \"errorCode\": \"PM_SHOOT_OPS_XXXX\",    \"parameterName\": \"Name of the request parameter\",    \"errorMessage\": \"Description of the error\"  }"
+    },
+    "Error_ProductGroups" : {
+      "type" : "object",
+      "required" : [ "errorCode" ],
+      "properties" : {
+        "errorCode" : {
+          "type" : "string",
+          "description" : "Error Code",
+          "enum" : [ "PM_PRODUCT_GROUPS_BADREQUEST", "PM_PRODUCT_GROUPS_NOTFOUND", "PM_PRODUCT_GROUPS_INTERNALSERVERERROR" ]
+        },
+        "parameterName" : {
+          "type" : "string",
+          "description" : "Parameter Name"
+        },
+        "errorMessage" : {
+          "type" : "string",
+          "description" : "This is an optional developer error description"
+        }
+      },
+      "description" : "Defines the error class for Product Groups..",
+      "example" : "  \"error\": {    \"errorCode\": \"PM_PRODUCT_GROUPS_XXXX\",    \"parameterName\": \"Name of the request parameter\",    \"errorMessage\": \"Description of the error\"  }"
+    },
+    "Error_ProductLookUp" : {
+      "type" : "object",
+      "required" : [ "errorCode" ],
+      "properties" : {
+        "errorCode" : {
+          "type" : "string",
+          "description" : "Error Code",
+          "enum" : [ "PM_PRODUCT_LOOKUP_BADREQUEST", "PM_PRODUCT_LOOKUP_NOTFOUND", "PM_PRODUCT_LOOKUP_INTERNALSERVERERROR" ]
+        },
+        "parameterName" : {
+          "type" : "string",
+          "description" : "Parameter Name"
+        },
+        "errorMessage" : {
+          "type" : "string",
+          "description" : "This is an optional developer error description"
+        }
+      },
+      "example" : "  \"error\": {    \"errorCode\": \"PM_PRODUCT_LOOKUP_XXXX\",    \"parameterName\": \"Name of the request parameter\",    \"errorMessage\": \"Description of the error\"  }"
+    },
+    "Product" : {
+      "type" : "object",
+      "required" : [ "PDPLayout", "brand", "colourways", "createdDateTime", "customerProductTitle", "fabricConstruction", "facetGender", "isExclusive", "isGift", "isHazmat", "isInWorkflow", "isLegacyEnriched", "isReturnable", "lastUpdatedDateTime", "productCode", "productDetails", "productID", "productLanguage", "productManagementGender", "productManagementLastUpdatedTS", "productManagementPublishedStatus", "productName", "productStatus", "productType", "productionStyling", "retailBusinessModel", "retailBusinessModelID", "retailGender", "retailHierarchy", "retailProductComposition", "retailProductTitle", "retailStyleID", "rmsStyleID", "supportedLanguages" ],
+      "properties" : {
+        "productID" : {
+          "type" : "number",
+          "description" : "The [style level] inventory ID for the product that is generated by BackOffice and is displayed in the URL for the PDP. R3: When RMS is live, this will be generated and mastered by STEP\n- Data type: Number\n- Data Length:40"
+        },
+        "productName" : {
+          "type" : "string",
+          "description" : "Defines the name of product.\n- Data Type: Text\n- Data Length: 128"
+        },
+        "productLanguage" : {
+          "type" : "string",
+          "description" : "The 3 character ISO standard Language tag of the Product document\n- Data Type:Text\n- Data Length: 5"
+        },
+        "supportedLanguages" : {
+          "type" : "array",
+          "description" : "List of languages that the Product needs to be translated into OR maintains translations in. This will detail the 2 characher ISO code for the language followed by the 2 character country ISO code for the store. There will be a default of 1 - 'en-GB'\n- Data Type: Text\n- Data Length: 5",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "retailProductTitle" : {
+          "type" : "string",
+          "description" : "The product level free text product title assigned in the retail source system for each product. \nP2: This is the product description in Merret\nR3: This is the Retail Colourway Title rolled up to Product. Where a Face + Body product has multiple colourways, the colourway level title for the first colourway received will be used as the Retail Product Title\n- Data Type: Text\n- Data Length: 128"
+        },
+        "customerProductTitle" : {
+          "type" : "string",
+          "description" : "PIM remastered version of the Retail Product Title. This is editable by the copy team and is the customer facing title of the product on the site\n- Data Type: Text\n- Data Length: 128"
+        },
+        "productCode" : {
+          "type" : "string",
+          "description" : "For Flow Line Products that were originally raised in Back Office and where BO Inventory.SKU parentId = -1) these were assigned an alphanumeric value that is retained with the Merret Legacy Style ID.\nThese IDs will not be migrated into RMS.\n- Data Type: Text\n- Data Length: 30"
+        },
+        "legacyStyleID" : {
+          "type" : "number",
+          "description" : "Existing Merret Style ID. This is the Product Code that is displayed on the PDP\nThis will be populated for all migrated products. For new products raised in RMS it will be blank\n- Data Type: Number\n- Data Length: 10"
+        },
+        "retailStyleID" : {
+          "type" : "string",
+          "description" : "The Retail source system generated [style level] ID for the product populated from the RMS Style attribute.\nFor products migrated from Merret into RMS, this will be the existing Merret value shown currently on the PDP.\nFor products raised in RMS and which will be grouped in Digital Core (Face + Body products) this will be StyleID_RangeShopByFitID\nOn item creation in PIM, this will need to be transformed into the Style Level of the hierarchy.\n- Data Type: Text\n- Data Length: 25"
+        },
+        "retailHierarchy" : {
+          "$ref" : "#/definitions/RetailHierarchy"
+        },
+        "productType" : {
+          "$ref" : "#/definitions/ProductType"
+        },
+        "productStatus" : {
+          "type" : "string",
+          "description" : "Defines the current status of the Product. Sample Values: Enrich, Sell, OnQuery, Discontinued\n- Data Type: Text\n- Data Length: 20"
+        },
+        "createdDateTime" : {
+          "type" : "string",
+          "format" : "date-time",
+          "description" : "DateTime at which Object was first created in STEP"
+        },
+        "lastUpdatedDateTime" : {
+          "type" : "string",
+          "format" : "date-time",
+          "description" : "DateTime at which Object was last updated in STEP"
+        },
+        "deletedDateTime" : {
+          "type" : "string",
+          "format" : "date-time",
+          "description" : "DateTime at which the Object was deleted in STEP"
+        },
+        "productManagementPublishedDate" : {
+          "type" : "string",
+          "format" : "date-time",
+          "description" : "This will be populated with the date time associated with the event “Event Published”. At product level this will be rolled up from the colourway level."
+        },
+        "productManagementLastUpdatedTS" : {
+          "type" : "string",
+          "format" : "date-time",
+          "description" : "Date time product was last updated in Product Management Data Store. Used by consumers to cater for race conditions\n- Data Type: DateTime"
+        },
+        "brand" : {
+          "$ref" : "#/definitions/Brand"
+        },
+        "retailGender" : {
+          "type" : "string",
+          "description" : "The retail source system gender value to indicate the gender for which the product was purchased.  \nP2: This is derived from Merret/Back Office product classification tree. \nR3: This will be a UDA [WEBSITE GENDER] and will allow retail users for departments that but for both Men and women to set the gender by product\n- Data Type: Text\n- Data Length: 10"
+        },
+        "productManagementGender" : {
+          "type" : "string",
+          "description" : "PIM remastered Gender values that will be used for shoot ops styling, model booking, copy.\nFor P2, PIM users will be able to change the gender for products where a department buys for both genders but the source always applies the gender value assigned to the buying department\nFor R3 this will allow Shoot Ops to correct attribution by the retail team where that retail teams buys for both genders\n- Data Type: Text\n- Data Length: 10"
+        },
+        "isHazmat" : {
+          "type" : "boolean",
+          "description" : "Defines if the material used is hazardous.\n- Data Type: Boolean"
+        },
+        "retailProductComposition" : {
+          "type" : "string",
+          "description" : "The materials from which the product is constructed with the % of each material. In Back Office this is a concatenation in Middleware of [Element Composition] [Composition Percent] [ Composition Description].\nR3: This concatenation will be implemented in Integration. \n- Data Type: Text\n- Data Length: 350"
+        },
+        "sampleSize" : {
+          "type" : "array",
+          "description" : "The declared sample size for a colourway. There will be a default value assigned based on product type, range and gender, and defined users will be able to update the default value where the declared sample is not a standard size.\n- Data Type: Text\n- Data Length: 30",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "productDetails" : {
+          "type" : "string",
+          "description" : "This is the template section of the PDP template that holds the product item information\n- Data Type: Text\n- Data Length: 1000"
+        },
+        "sizeAndFit" : {
+          "type" : "string",
+          "description" : "This is the template section of the PDP template that holds the models height and the item size that they are wearing (where applicable)\n- Data Type: Text\n- Data Length: 350"
+        },
+        "aboutMe" : {
+          "type" : "string",
+          "description" : "This is the template section of the PDP template that holds the product composition (where applicable). In the future for Face + Body, it will hold the ingredients attribute value\n- Data Type: Text\n- Data Length: 350"
+        },
+        "lookAfterMe" : {
+          "type" : "string",
+          "description" : "This is the template section of the PDP template that holds the product care information (where applicable)\n- Data Type: Text\n- Data Length: 350"
+        },
+        "productionStyling" : {
+          "type" : "string",
+          "description" : "PIM mastered derived attribute to indicate if a product is for fashion or activewear. This will by used by ASOS Studio teams to determine how the colourway is shot. It is derived from the values in the ACTIVITY retail source system attribute. \n- Data Type: Text\n- Data Length: 10"
+        },
+        "legacyRestrictionID" : {
+          "type" : "number",
+          "description" : "Back Office Shipping Restriction ID to be used by Product Catalogue in Phase 2 to fetch restriction details. Not required for R3.\n- Data Type: Number\n- Data Length: 5"
+        },
+        "countryRestriction" : {
+          "type" : "array",
+          "description" : "Countries (ISO codes) to which a restriction applies. These are currently in Back Office and in future will be mastered in RMS\n- Data Type: Text\n- Data Length: 3",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "isExclusive" : {
+          "type" : "boolean",
+          "description" : "\"PIM remastered version of RMS EXCLUSIVE UDA to flag that the primary image requires an [Exclusive] banner where the product is exclusive to ASOS\nUsed to populate the Exclusive to Asos PLP\nMerret attribute id = 70\"\n- Data Type: Boolean"
+        },
+        "isGift" : {
+          "type" : "boolean",
+          "description" : "PIM mastered attribute that merges the values of Merging values to RMS GIFTS and PIM NON-GIFTING DEPT GIFTS to create a single Gift flag that can be used in search rules in Fredhopper and to auto-populate and gift related PLPs\n- Data Type: Boolean"
+        },
+        "productManagementPublishedStatus" : {
+          "type" : "string",
+          "description" : "Informs whether the Product or Colourway has been published by PIM. Values of ‘Published’ and ‘Unpublished’\n- Data Type: Text\n- Data Length: 15"
+        },
+        "legacyBuyTheLookID" : {
+          "type" : "number",
+          "description" : "The Back Office generated ID of the BTL group\nAfter R3, this field will be blank\n- Data Type: Number\n- Data Length: 40"
+        },
+        "legacyMixMatchID" : {
+          "type" : "number",
+          "description" : "ID of the mix and match group\n- Data Type: Number\n- Data Length: 5"
+        },
+        "productAttributes" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/ProductManagementAttribute"
+          }
+        },
+        "colourways" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/Colourway"
+          }
+        },
+        "webCategoryID" : {
+          "type" : "array",
+          "description" : "The Web Categories that haves been assigned to a Product type in Back Office Product Classification\nwhen PLP Manager is implmented and Copy is created in PIM, this will be repolaced with a single Web Category ID that will be used to determine the Category that is dispalyed on the SEO link on line 1 of the Product details copy\n- Data Type: Number\n- Data Length: 6",
+          "items" : {
+            "type" : "number"
+          }
+        },
+        "retailBusinessModelID" : {
+          "type" : "number",
+          "description" : "The retail source system ID for the Retail Business Model attribute.\n- Data Type: Number\n- Data Length: 2"
+        },
+        "retailBusinessModel" : {
+          "type" : "string",
+          "description" : "The retail source system attribute version of a node in the TGR Buyrarchy that will be implemented for R3. This replaces the existing Merret division and is used to identify colourways as Brands, Own Buy, Outlet, Venture.\n- Data Type: Text\n- Data Length: 30"
+        },
+        "PDPLayout" : {
+          "type" : "string",
+          "description" : "Derived attribute in PIM to map Primary Product type to a PDP template. This will be consumed by product catalogue and passed to Web & Apps platform to enable them to use different PDP layouts. The front end delivery of different templates will be post-digital core launch.\n- Data Type: Text\n- Data Length: 20"
+        },
+        "fabricConstruction" : {
+          "type" : "string",
+          "description" : "Retail source system attribute to indicate is a clothing item fabric construction is Knit or Woven. This is required by FCs for inclusion of customer declaration forms where the FC is shipping outside of it's customs area.\nNote: It is flagged as [Use for refinement] = TRUE as this is required to trigger the German translation for Eurohub product shipping outside of EU, however it is not displayed to the customer as a refinement.\n- Data Type: Text\n- Data Length: 20"
+        },
+        "isInWorkflow" : {
+          "type" : "boolean",
+          "description" : "Status flag to indicate if a product is in the digital core workflow (i.e. has been Sample Received but not yet ready for Publish)\n- Data Type: Boolean"
+        },
+        "facetGender" : {
+          "type" : "array",
+          "description" : "The customer facing refinement gender values that will be used for product classification and to enable unisex values in source to be transformed into a multi-value LOV for refinement.\n- Data Type: Text\n- Data Length: 10",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "isReturnable" : {
+          "type" : "boolean",
+          "description" : "A retail source system attribute value to flag whether or not a product type is returnable by the customer after despatch. Not used currently to drive any front end messaging or logic but may be used going forward.\n- Data Type: Boolean"
+        },
+        "rmsStyleID" : {
+          "type" : "number",
+          "description" : "The Style ID value from retail. This needs to be retained so that for products that not rolled up in PIM (i.e. non+Face + body) we retain the original source mapping value so that if we need to support swatching for clothing on the front end, we have the linking data to link products that are linked in retail but are single colourway to product in PIM.\n- Data Type: Number\n- Data Length: 25"
+        },
+        "merchandisingSeason" : {
+          "type" : "string",
+          "description" : "This is the retail source system attribute to identify the last season where a colourway was sole. Where a colourway is purchased to be sold in a following season, this value is updated in source. Where a product has multiple colourways, different colourways could have different values where some colourways are flow and others are season specific\n- Data Type: Text\n- Data Length: 20"
+        },
+        "packingFormat" : {
+          "type" : "string",
+          "description" : "This is the retail source system value for Packing Format used by FC Fulfilment processes. Attribute values are Flat; Hanging\n- Data Type: Text \n- Data Length: 30"
+        },
+        "isLegacyEnriched" : {
+          "type" : "boolean",
+          "description" : "Flag to indicate the product was enriched in Style Management. On Inbound interface Set to 'Yes' else 'No'.\n- Data Type: Boolean"
+        },
+        "legacyWorkflowStatus" : {
+          "type" : "number",
+          "description" : "Mapping of PIM workflow states to the current Back Office status values\n\n- Data Type: Number\n- Data Length: 6"
+        },
+        "asnDate" : {
+          "type" : "string",
+          "format" : "date-time",
+          "description" : "The earliest Delivery date for product. Advance Shipping Note that will replace the MDA in RMS. An ASN can cover multiple POs and a style/option can have multiple ASNs\n\nFor Phase 2, the source data from Merret/Back Office will be the MDA field\nFor Phase 3, the source data will be the ASN date field\n\n- Data Type: DateTime"
+        }
+      }
+    },
+    "Brand" : {
+      "type" : "object",
+      "required" : [ "brandID", "brandName" ],
+      "properties" : {
+        "brandID" : {
+          "type" : "number",
+          "description" : "The retail source system ID for the Brand to which the product belongs. \nNote for R3 this changes from the numeric Back Office value to an Alphanumeric RMS value\n- Data Type: Number\n- Data Length: 40"
+        },
+        "brandName" : {
+          "type" : "string",
+          "description" : "The retail source system name of the Brand to which the product belongs. \n- Data Type: Text\n- Data Length: 40"
+        },
+        "subBrandID" : {
+          "type" : "number",
+          "description" : "Internal PIM ID for the Sub Brand (a value to identify specific styles of a brand's products to pre-populate copy templates with pre-defined text). \n- Data Type: Number\n- Data Length: 40"
+        },
+        "subBrandName" : {
+          "type" : "string",
+          "description" : "Internal PIM attribute to identify specific styles of a brand's products to pre-populate copy templates with pre-defined text). This is primarily used for popular trainer styles - e.g. Nike Air Max or adidas Gazelle.\n- Data Type: Text\n- Data Length: 40"
+        },
+        "brandFacet" : {
+          "type" : "string",
+          "description" : "PIM mastered attribute used in deriving the Mens Brand and the Womens Brand Facet\nAlso used on task lists to display the item brand\n- Data Type: Text\n- Data Length: 300"
+        },
+        "brandDescriptionPDP" : {
+          "type" : "string",
+          "description" : "Brand specific copy to be used on the Brand section of the PDP for a product (and will Include the brand PLP Ids. \n- Data Type: Text\n- Data Length: 450"
+        }
+      }
+    },
+    "Colourway" : {
+      "type" : "object",
+      "required" : [ "colourwayID", "colourwayName", "colourwayStatus", "createdDateTime", "customerColourwayTitle", "customerFriendlyColour", "isExclusive", "isInWorkflow", "isPrimaryColourway", "isStylingItem", "lastUpdatedDateTime", "plannedGoLiveDate", "productManagementPublishedStatus", "refinementColour", "refinementColourID", "retailColourwayTitle", "retailOptionID", "retailReportingColour", "retailReportingColourID", "rmsRetailColourGroup", "rmsRetailColourGroupID", "supplierColour", "variants" ],
+      "properties" : {
+        "colourwayID" : {
+          "type" : "number",
+          "description" : "In Digital Core this will be generated in STEP. This will be a unique ID per colourway\n- Data Type: Number\n- Data Length: 40"
+        },
+        "colourwayName" : {
+          "type" : "string",
+          "description" : "PIM remastered version of the Retail Colourway Title. \nThis is editable by the copy team and is the customer facing title of the colourway on the site\n- Data Type: Text\n- Data Length: 255"
+        },
+        "isPrimaryColourway" : {
+          "type" : "boolean",
+          "description" : "PIM Mastered attribute set by Shoot Ops for styles with multiple colourways. It drives workflow for assets and is used by downstream systems to determine the images displayed on the default PLP and PDP. This will only apply to Face + Body products.\n- Data Type: Boolean"
+        },
+        "retailOptionID" : {
+          "type" : "string",
+          "description" : "This is the RMS Option ID and can have multiple values for a colourway.\n- Data Type: Text\n- Data Length: 25"
+        },
+        "retailColourwayTitle" : {
+          "type" : "string",
+          "description" : "The free text product title assigned in the retail source system for each colourway. \n- Data Type: Text\n- Data Length: 255"
+        },
+        "customerColourwayTitle" : {
+          "type" : "string",
+          "description" : "PIM remastered version of the Retail Colourway Title. \nThis is editable by the copy team and is the customer facing title of the colourway on the site\n- Data Type: Text\n- Data Length: 255"
+        },
+        "legacyOptionID" : {
+          "type" : "string",
+          "description" : "This is the combination of [style level] Merret ID and ColourCode and is used for sample scan in fashion gps\n- Data Type: Text\n- Data Length: 10"
+        },
+        "colourwayStatus" : {
+          "type" : "string",
+          "description" : "Description of the state of the colourway in the product management lifecycle. Sample Values: Enrich, Sell, OnQuery, Discontinued\n- Data Type: Text\n- Data Length: 20"
+        },
+        "createdDateTime" : {
+          "type" : "string",
+          "format" : "date-time",
+          "description" : "DateTime at which Object was first created in STEP"
+        },
+        "lastUpdatedDateTime" : {
+          "type" : "string",
+          "format" : "date-time",
+          "description" : "DateTime at which Object was  updated in STEP"
+        },
+        "deletedDateTime" : {
+          "type" : "string",
+          "format" : "date-time",
+          "description" : "DateTime at which Object was  deleted in STEP"
+        },
+        "productManagementPublishedDate" : {
+          "type" : "string",
+          "format" : "date-time",
+          "description" : "This will be populated with the date time associated with the event “Event Published”. This defines the date time when the product was published from PIM\n- Data Type: DateTime"
+        },
+        "colourwayAttributes" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/ProductManagementAttribute"
+          }
+        },
+        "colourwaySellingTags" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/SellingTag"
+          }
+        },
+        "productionAsset" : {
+          "type" : "object",
+          "properties" : {
+            "images" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/definitions/Image"
+              }
+            },
+            "video" : {
+              "$ref" : "#/definitions/Video"
+            },
+            "spinSet" : {
+              "$ref" : "#/definitions/Spinset"
+            }
+          }
+        },
+        "retailColourID" : {
+          "type" : "string",
+          "description" : "The Back Office colour code of the item colour; RE1, RE2. This is used by create a colourway ID by appending the code to the Merret Product code - e.g. 123456_RE1; 123456_RE2. This will not longer be generated for new products from R3.\n- Data Type: Text\n- Data Length: 10"
+        },
+        "supplierColour" : {
+          "type" : "string",
+          "description" : "The free text retail source system with the Suppliers colour for a product. This can be a true colour (e.g. red, blue) or a an aspirational colour (e.g. Tropical sunset, Rio de Janiero) . This is the colour that is displayed on the PDP \n- Data Type: Text\n- Data Length: 30"
+        },
+        "refinementColourID" : {
+          "type" : "number",
+          "description" : "The ID used by downstream digital platforms to identify the refining colour to display to the customer. \nP2: PIM will continue to consume the ID from Back Office via RTS\nR3: PIM will master the ID and will map the RMS Retail Colour Group ID to the Refinement colour ID to ensure downstream platforms continue to get the same data values and format\n- Data Type: Number\n- Data Length: 2"
+        },
+        "refinementColour" : {
+          "type" : "string",
+          "description" : "R2: The Retail source system value for the colour displayed for refinement that is displayed to the customer. This will be replaced by Retail Reporting colour for R3.\n- Data Type: Text\n- Data Length: 30"
+        },
+        "rmsRetailColourGroupID" : {
+          "type" : "string",
+          "description" : "The retail source system ID for the RMS Retail Colour Group. PIM will map this ID to the Refinement colour ID to pass to downstream digital platforms.\n- Data Type: Text\n- Data Length: 10"
+        },
+        "rmsRetailColourGroup" : {
+          "type" : "string",
+          "description" : "The Retail source system value for the colour displayed for refinement that is displayed to the customer.\n- Data Type: Text\n- Data Length: 10"
+        },
+        "customerFriendlyColour" : {
+          "type" : "string",
+          "description" : "PIM remastered editable version of the retail Supplier Colour to enable the copy team to correct any obvious spelling errors in source - e.g. YEllow, Grenn)\n- Data Type: Text\n- Data Length: 30"
+        },
+        "productManagementPublishedStatus" : {
+          "type" : "string",
+          "description" : "Informs whether the Product or Colourway has been published by PIM. Values of 'Published' and 'Unpublished'\n- Data Type: Text\n- Data Length: 15"
+        },
+        "variants" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/Variant"
+          }
+        },
+        "sampleStatus" : {
+          "type" : "string",
+          "description" : "Holds the sample status from PIM. Sample value: Sample Received\n- Data Type: Text\n- Data Length: 25"
+        },
+        "sampleSize" : {
+          "type" : "array",
+          "description" : "The declared sample size for a colourway. There will be a default value assigned based on product type, range and gender, and defined users will be able to update the default value where the declared sample is not a standard size.\n- Data Type: Text\n- Data Length: 30",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "isStylingItem" : {
+          "type" : "boolean",
+          "description" : "A PIM mastered flag for virtual wardrobe to identify that a Colourway is in the styling wardrobes for use as a Styling Item in model shoots\n- Data Type: Boolean"
+        },
+        "isInWorkflow" : {
+          "type" : "boolean",
+          "description" : "Status flag to indicate if a product is in the digital core workflow (i.e. has been Sample Received but not yet ready for Publish)\n- Data Type: Boolean"
+        },
+        "countryOfManufacture" : {
+          "type" : "string",
+          "description" : "The value set in Retail source system for the country of manufacture. On receipt of available to sell date, PIM will check that the country of manufacture value is not a dummy value (Dummy value = TBC) before publishing the colourway to catalogue. \nThe country of manufacture will be publsihed to downstream consumers to support legal requirements for the US website.\n- Data Type: Text\n- Data Length: 50"
+        },
+        "fabricComposition" : {
+          "type" : "string"
+        },
+        "buyTheLookGroup" : {
+          "type" : "array",
+          "description" : "Hold the BTL components.",
+          "items" : {
+            "$ref" : "#/definitions/BuyTheLookGroup"
+          }
+        },
+        "modelID" : {
+          "type" : "number",
+          "description" : "The unique system ID assigned to a model\n- Data Type: Number \n- Data Length: 40"
+        },
+        "modelName" : {
+          "type" : "string",
+          "description" : "Model Name - [Model Info] Tab. Model name is in 2 columns, First Name and Last Name.\n- Data Type: Text\n- Data Length: 50"
+        },
+        "modelLastUpdatedDate" : {
+          "type" : "string",
+          "format" : "date-time",
+          "description" : "The Date on which the assigned model for a colourway was last updated. This will be taken from the timestamp when PIM receives updated model  data from DAM. This date will be available to Data Services for the model tenure report.\n- Data Type: DateTime"
+        },
+        "modelTenureUsageDate" : {
+          "type" : "string",
+          "format" : "date-time",
+          "description" : "PIM calculated model tenure date against the colourway and will be the latest of: [Date on Site]; [Model Last Updated Date] and [Model Usage Date].\n- Data Type: DateTime"
+        },
+        "retailReportingColourID" : {
+          "type" : "string",
+          "description" : "R3: The retail source system ID for the Retail Reporting Colour.\n- Data Type: Text\n- Data Length: 10"
+        },
+        "retailReportingColour" : {
+          "type" : "string",
+          "description" : "R3: A retail source system value to provide a lower level of colour (e.g. Light Blue; Dark Blue).\nThis will not be surfaced to the customer for day 1 but will be available to the CX team for multivariant testing for determine any future customer facing requirements for these values.\nNote: Where a colour group has only one reporting colour, reporting colour in RMS will be NULL. \nTBC rules we want for reporting colour where = NULL\nFor RMS migration Reporting colour will be not be populated.\n- Data Type: Text\n- Data Length: 10"
+        },
+        "plannedGoLiveDate" : {
+          "type" : "string",
+          "format" : "date-time",
+          "description" : "Date Value that will be added in retail source system to all products at item complete. This date is an initial view from the retail team on when the option is planned to be live. It can be updated after item complete but will not be a required part of the retail process\n- Data Type: DateTime"
+        },
+        "legacyWorkflowStatus" : {
+          "type" : "number",
+          "description" : "Mapping of PIM workflow states to the current Back Office status values\n\n- Data Type: Number\n- Data Length: 6"
+        },
+        "asnDate" : {
+          "type" : "string",
+          "format" : "date-time",
+          "description" : "The earliest Delivery date for product. Advance Shipping Note that will replace the MDA in RMS. An ASN can cover multiple POs and a style/option can have multiple ASNs\n\nFor Phase 2, the source data from Merret/Back Office will be the MDA field\nFor Phase 3, the source data will be the ASN date field\n\n- Data Type: DateTime"
+        },
+        "webCategoryID" : {
+          "type" : "array",
+          "description" : "The Web Categories that haves been assigned to a Product type in Back Office Product Classification\nwhen PLP Manager is implmented and Copy is created in PIM, this will be repolaced with a single Web Category ID that will be used to determine the Category that is dispalyed on the SEO link on line 1 of the Product details copy\n- Data Type: Number\n- Data Length: 6",
+          "items" : {
+            "type" : "number"
+          }
+        },
+        "isExclusive" : {
+          "type" : "boolean",
+          "description" : "\"PIM remastered version of RMS EXCLUSIVE UDA to flag that the primary image requires an [Exclusive] banner where the product is exclusive to ASOS\nUsed to populate the Exclusive to Asos PLP\nMerret attribute id = 70\"\n- Data Type: Boolean"
+        }
+      }
+    },
+    "ProductType" : {
+      "type" : "object",
+      "required" : [ "productTypeID", "productTypeName" ],
+      "properties" : {
+        "productTypeID" : {
+          "type" : "number",
+          "description" : "The Back Office ID for the PIM Product Type value\n- Data Type: Number\n- Data Length: 40"
+        },
+        "productTypeName" : {
+          "type" : "string",
+          "description" : "The value of the PIM Product Type assigned to a product\n- Data Type: Text\n- Data length: 50"
+        }
+      }
+    },
+    "RetailHierarchy" : {
+      "type" : "object",
+      "required" : [ "retailBuyingSubGroup", "retailBuyingSubGroupID", "retailClassID", "retailClassName", "retailDepartmentID", "retailDepartmentName", "retailGroupID", "retailGroupName", "retailProductGroupID", "retailProductGroupName", "retailSubClassID", "retailSubClassName" ],
+      "properties" : {
+        "legacyDepartmentID" : {
+          "type" : "number",
+          "description" : "Merret ID of the ASOS Buying department that raised and purchased the product\n- Data Type: Number\n- Data Length: 3"
+        },
+        "legacyDepartmentName" : {
+          "type" : "string",
+          "description" : "Merret Name of the ASOS Buying department that raised and purchased the product. This is used by ASOS Studio teams to identify the team to which to direct any queries relating to a colourway.\n- Data Type: Text\n- Data Length: 40"
+        },
+        "legacyDivisionID" : {
+          "type" : "number",
+          "description" : "The Merret ID for the Legacy Division Value.\n- Data Type: Number\n- Data Length: 5"
+        },
+        "legacyDivision" : {
+          "type" : "string",
+          "description" : "The Merret Hierarchy Node that differentiates Outlet from Branded/Own Buy Departments\n- Data Type: Text\n- Data Length: 30"
+        },
+        "legacyCategoryID" : {
+          "type" : "number",
+          "description" : "The ID for the Merret category that is required by browse platform to support as is functionality. It is also used by the Shoot Ops team to idenitfy the gender of products where a single department buys for both Men and Women. For R3, this will be replaced by PLP Manager which will communicate directly with catalogue and browse.\n- Data Type: Number\n- Data Length: 5"
+        },
+        "legacyCategoryName" : {
+          "type" : "string",
+          "description" : "The Merret category that is required by browse platform to support as is functionality. It is also used by the Shoot Ops team to idenitfy the gender of products where a single department buys for both Men and Women. For R3, this will be replaced by PLP Manager which will communicate directly with catalogue and browse.\n- Data Type: Text\n- Data Length: 50"
+        },
+        "retailDepartmentID" : {
+          "type" : "number",
+          "description" : "ID of the Level within the RMS Product Hierarchy used to derive PIM values that are currently UDAs within Merret\n- Data Type: Number\n- Data Length: 3"
+        },
+        "retailDepartmentName" : {
+          "type" : "string",
+          "description" : "Name of the Level within the RMS Product Hierarchy used to derive PIM values that are currently UDAs within Merret\n- Data Type: Text\n- Data Length: 50"
+        },
+        "retailClassID" : {
+          "type" : "number",
+          "description" : "Retail source attribute with the value of the Class node from the Retail Product hierarchy to define Clothing/Non-Clothing products.\n- Data Type: Number\n- Data Length: 5"
+        },
+        "retailClassName" : {
+          "type" : "string",
+          "description" : "Retail source attribute with the ID fof the Retail Class attribute.\n- Data Type: Text\n- Data Length: 50"
+        },
+        "retailSubClassID" : {
+          "type" : "number",
+          "description" : "Retail source attribute with the value of the Sub Class node from the Retail Product hierarchy to define Clothing/Non-Clothing products.\n- Data Type: Number\n- Data Length: 5"
+        },
+        "retailSubClassName" : {
+          "type" : "string",
+          "description" : "Retail source attribute with the ID fof the Retail Sub Class attribute.\n- Data Type: Text\n- Data Length: 50"
+        },
+        "retailGroupID" : {
+          "type" : "number",
+          "description" : "Retail source attribute with the ID fof the Retail Group attribute.\n- Data Type: Number\n- Data Length: 4"
+        },
+        "retailGroupName" : {
+          "type" : "string",
+          "description" : "Retail source attribute with the value of the Group node from the Retail Product hierarchy to define Clothing/Non-Clothing products."
+        },
+        "retailProductGroupID" : {
+          "type" : "number",
+          "description" : "Retail source attribute with the ID fof the Retail Retail Group attribute.\n- Data Type: Number\n- Data Length: 5"
+        },
+        "retailProductGroupName" : {
+          "type" : "string",
+          "description" : "Retail source attribute with the value of the Product Group node from the Retail Product hierarchy to define Clothing/Non-Clothing products.\n- Data Type: Text\n- Data Length: 50"
+        },
+        "retailBuyingSubGroupID" : {
+          "type" : "number",
+          "description" : "The retail source system ID for the Retail Buying SubGroup attribute.\n- Data Type: Number\n- Data Length: 4"
+        },
+        "retailBuyingSubGroup" : {
+          "type" : "string",
+          "description" : "The retail source system attribute version of a node in the TGR Buyrarchy that will be implemented for R3. This replaces the existing Merret category node in the Merret hierarchy.\n- Data Type: Text\n- Data Length: 50"
+        }
+      }
+    },
+    "SellingTag" : {
+      "type" : "object",
+      "required" : [ "effectiveFromDate", "sellingTagID", "sellingTagName" ],
+      "properties" : {
+        "sellingTagID" : {
+          "type" : "number",
+          "description" : "The unique identifier for a Selling Tag.\n- Data Type: Number\n- Data Length: 40"
+        },
+        "sellingTagName" : {
+          "type" : "string",
+          "description" : "Name for a Selling Tag.\n- Data Type: Text\n- Data Length: 40"
+        },
+        "effectiveFromDate" : {
+          "type" : "string",
+          "format" : "date-time",
+          "description" : "The date at which the Selling Tag becomes active.\n- Data Type: DateTime"
+        },
+        "effectiveToDate" : {
+          "type" : "string",
+          "format" : "date-time",
+          "description" : "The date at which the Selling Tag becomes inactive.\n- Data Type: DateTime"
+        }
+      }
+    },
+    "Variant" : {
+      "type" : "object",
+      "required" : [ "EAN", "commodityCode", "createdDateTime", "lastUpdatedDateTime", "productManagementPublishedStatus", "retailSKUID", "retailSize", "retailSizeGroup", "retailSizeGroupID", "retailVariantTitle", "variantID", "variantName", "variantSizeID", "variantStatus" ],
+      "properties" : {
+        "variantID" : {
+          "type" : "number",
+          "description" : "The [variant level] inventory ID for the product that is generated by BackOffice and is displayed in the URL for the PDP when size is added to bag. This is the step id and post TGR, this will be generated and mastered by STEP\n- Data Type: Number\n- Data Length: 40"
+        },
+        "variantName" : {
+          "type" : "string",
+          "description" : "P2: The free text product title assigned in the retail source system for each product and inherited down to each variant under that product\nR3: The free text product title assigned in the retail source system for each colourway and inherited down to each variant under that colourway\n- Data type: Text\n- Data Length: 255"
+        },
+        "retailSKUID" : {
+          "type" : "string",
+          "description" : "This is the retail source system variant (size) level identifier and is a one  to one mapping to each variant.\n- Data type: Text\n- Data Length: 25"
+        },
+        "retailVariantTitle" : {
+          "type" : "string",
+          "description" : "P2: The free text product title assigned in the retail source system for each product and inherited down to each variant under that product\nR3: The free text product title assigned in the retail source system for each colourway and inherited down to each variant under that colourway\n- Data Type: Text\n- Date Length: 255"
+        },
+        "variantStatus" : {
+          "type" : "string",
+          "description" : "Description of the state of the colourway in the product management lifecycle. Sample Values: Enrich, Sell, OnQuery, Discontinued\n\n- Data Type: Text\n- Data Length: 20"
+        },
+        "createdDateTime" : {
+          "type" : "string",
+          "format" : "date-time",
+          "description" : "DateTime at which Object was first created in STEP"
+        },
+        "lastUpdatedDateTime" : {
+          "type" : "string",
+          "format" : "date-time",
+          "description" : "DateTime at which Object was updated in STEP"
+        },
+        "deletedDateTime" : {
+          "type" : "string",
+          "format" : "date-time",
+          "description" : "DateTime at which Object was deleted in STEP"
+        },
+        "SKUID" : {
+          "type" : "string",
+          "description" : "This is passed by Product catalogue to BI\nThis is sourced form the SKU column in the Inventory table)\n- Data Type: Text\n- Data Length: 20"
+        },
+        "legacySKUID" : {
+          "type" : "number",
+          "description" : "This is the Merret ID at a SKU level and is used for calling the pricing service. This is sourced from the ExternalID column in the Back Office Inventory Table\nThis will exist for migrated products. For new products it will be blank\n- Data Type: Number\n- Data Length: 20"
+        },
+        "supplierRef" : {
+          "type" : "string",
+          "description" : "A Supplier Reference for a SKU. This can be numeric or text. The Supplier reference may not be unique per SKU and can be used for all variants of a colourway dependent on the Brand.\n- Data Type: Text\n- Data Length: 100"
+        },
+        "legacyWorkflowStatus" : {
+          "type" : "number",
+          "description" : "Mapping of PIM workflow states to the current Back Office status values\n\n- Data Type: Number\n- Data Length: 6"
+        },
+        "EAN" : {
+          "type" : "string",
+          "description" : "The EAN for a SKU, and required for Google Shopping to match ASOS IDs to the Supplier EAN. \nThis the Back Office Primary EAN\n- Data Type: Text \n- Data Length: 20"
+        },
+        "sizeDescriptionID" : {
+          "type" : "number",
+          "description" : "The Id for the Supplier Size \n- Data Type: Number \n- Data Length: 30"
+        },
+        "supplierSize" : {
+          "type" : "string",
+          "description" : "The size for a SKU assigned by the supplier based for their product e.g. for Ted Baker, dresses are sized 0, 1, 2, 3, 4, 5, so the Description will be Size 0, Size 1 etc)\nFor P2 - this is sourced from Merret Size Code (and also referred to as the Brand size)\n- Data Type: Text \n- Data Length: 30"
+        },
+        "brandSizeID" : {
+          "type" : "number",
+          "description" : "The ID of the Brand size\n- Data Type: Number\n- Data Length: 10"
+        },
+        "brandSize" : {
+          "type" : "string",
+          "description" : "The customer friendly description of the size that is displayed in the size selection dropdown on a PDP - e.g. Size description ID of 2XLE would display as 2XL Extra Long\nThis is required for P2 but for R3 is delivered by the Size Diff Description (See supplier size)\n- Data Type: Text\n- Data Length: 30"
+        },
+        "refinementSizeID" : {
+          "type" : "number",
+          "description" : "The ID of the size used for refinement\n- Data Type: Number\n- Data length: 10"
+        },
+        "refinementSize" : {
+          "type" : "string",
+          "description" : "The ASOS size value displayed on the size refinement dropdown on the PDP\n- Data Type: Text\n- Data Length: 30"
+        },
+        "sizeOrder" : {
+          "type" : "number",
+          "description" : "Retail source sequence that identifies the order in which size values are displayed in the size dropdown on the PDP\nFor R3 (TGR) this is defined in Size Manager and publsihed directly to Product catalogue\n- Data Type: Integer\n- Data Length: 10"
+        },
+        "productManagementPublishedStatus" : {
+          "type" : "string",
+          "description" : "Informs whether the Product or Colourway has been published by PIM. Values of 'Published' and 'Unpublished'\n- Data Type: Text\n- Data Length: 15"
+        },
+        "variantStoreData" : {
+          "type" : "array",
+          "description" : "Defines the Store Level Attributes",
+          "items" : {
+            "$ref" : "#/definitions/VariantStoreData"
+          }
+        },
+        "variantSizeID" : {
+          "type" : "number",
+          "description" : "The Variant level ID that is generated by Size Manager.  This ID will be the PIM hook into the enriched size data maintained and held in Size Manager application..\n- Data Type: Number\n- Data length: 10"
+        },
+        "retailSize" : {
+          "type" : "string",
+          "description" : "Defines the sizeDiffDescription from RMS"
+        },
+        "retailSizeGroupID" : {
+          "type" : "number",
+          "description" : "The ID of the Retail Size Group that the item belongs to (e.g. 3000).\n- Data Type: Number\n- Data length: 5"
+        },
+        "retailSizeGroup" : {
+          "type" : "string",
+          "description" : "The name of the Retail Size Group that the item belongs to (e.g. Ted Baker Dresses). This is defined in RMS and will be published directly to Size Manager from RMS."
+        },
+        "sizeDiffDescription" : {
+          "type" : "string",
+          "description" : "The size for a SKU assigned by the supplier based for their product e.g. for Ted Baker, dresses are sized 0, 1, 2, 3, 4, 5, so the Description will be Size 0, Size 1 etc)\nFor R3 (TGR) this is named Size Diff Description in retail source and in Size Manager."
+        },
+        "sizeDiffID" : {
+          "type" : "string",
+          "description" : "For R3 (TGR) this will be the Size Diff ID in retail source and in Size Manager."
+        },
+        "weight" : {
+          "type" : "number",
+          "description" : "The physical weight of the product in grams\nRetail source enters in Kg and middleware converts to gms.\n- Data Type: Decimal\n- Data Length: 25"
+        },
+        "asnDate" : {
+          "type" : "string",
+          "format" : "date-time",
+          "description" : "The earliest Delivery date for product. Advance Shipping Note that will replace the MDA in RMS. An ASN can cover multiple POs and a style/option can have multiple ASNs\n\nFor Phase 2, the source data from Merret/Back Office will be the MDA field\nFor Phase 3, the source data will be the ASN date field\n\n- Data Type: DateTime"
+        },
+        "commodityCode" : {
+          "type" : "string",
+          "description" : "The value set in Retail source system for the commodity code. On receipt of available to sell date, PIM will check that the commodity code value is not a dummy value (Dummy value = 9999999999) before publishing the colourway to catalogue. The commodity code is not published to downstream consumers.\n- Data Type: Text\n- Data Length: 10"
+        }
+      }
+    },
+    "ProductManagementAttribute" : {
+      "type" : "object",
+      "required" : [ "attributeID", "attributeName", "attributeValues" ],
+      "properties" : {
+        "attributeID" : {
+          "type" : "number",
+          "description" : "The Back Office ID assigned to a Merret attribute\n- Data Type: Number\n- Data Length: 40"
+        },
+        "attributeName" : {
+          "type" : "string",
+          "description" : "The name of the attribute (defined in Merret)\n- Data Type: Text\n- Data Length: 50"
+        },
+        "attributeValues" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/ProductManagementAttributeValue"
+          }
+        }
+      }
+    },
+    "ProductManagementAttributeValue" : {
+      "type" : "object",
+      "required" : [ "value" ],
+      "properties" : {
+        "valueID" : {
+          "type" : "number",
+          "description" : "The Back Office ID assigned to a Merret attribute value\n- Data Type: Number\n- Data Length: 40"
+        },
+        "value" : {
+          "type" : "string",
+          "description" : "The value for an attribute (defined in Merret)\n- Data Type: Text\n- Data Length: 250"
+        },
+        "unitOfMeasure" : {
+          "type" : "string",
+          "description" : "The unit of measure used for a measurement value of a product\n- Data Type: Text\n- Data Length: 20"
+        }
+      }
+    },
+    "ProductionShoot" : {
+      "type" : "object",
+      "required" : [ "isDeleted", "lastUpdatedDateTime", "modelAvailableTime", "modelID", "modelName", "productionShootID", "shootDate", "shootFunction", "shootStaff", "studioName", "studioStatus" ],
+      "properties" : {
+        "productionShootID" : {
+          "type" : "string",
+          "description" : "Unique Identifier for a Shoot Instance combination of date_studio_model\n- Data type: Text\n- Data Length: 50"
+        },
+        "shootDate" : {
+          "type" : "string",
+          "description" : "Date when shoot will occur"
+        },
+        "shootFunction" : {
+          "type" : "array",
+          "description" : "Defines the shoot functions for the studio in context Sample Values: Still Life, Still Spinset, Unrec Model, Rec Model, Model Video",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "studioName" : {
+          "type" : "string",
+          "description" : "The name of the Studio in ASOS Studios in which an asset (image, video or spinset) was shot\n- Data type: Text\n- Data Length: 50"
+        },
+        "studioComments" : {
+          "type" : "string",
+          "description" : "A free text field to allow members of the studio to add comments against assets to as part of their workflow\n- Data Type: Text\n- Data length: 1000"
+        },
+        "studioStatus" : {
+          "type" : "string",
+          "description" : "Defines the Status of Shoot Sample Values: Confirmed/UnConfirmed\n- Data Type: Text\n- Data Length: 10"
+        },
+        "modelID" : {
+          "type" : "number",
+          "description" : "Unique ID assigned to a Model\n- Data Type: Number\n- Data Length: 40"
+        },
+        "modelName" : {
+          "type" : "string"
+        },
+        "modelAvailableTime" : {
+          "type" : "string",
+          "description" : "Defines the time slot during the day for which model is available.Sample values: AM, PM, Full Day\n- Data type: Text\n- Data Length: 10"
+        },
+        "shootStaff" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/ShootStaff"
+          }
+        },
+        "shootRejections" : {
+          "type" : "array",
+          "description" : "Defines the record for rejections. This section will only be populated when there is a rejections from DAM.",
+          "items" : {
+            "$ref" : "#/definitions/shootRejections"
+          }
+        },
+        "lastUpdatedDateTime" : {
+          "type" : "string",
+          "format" : "date-time",
+          "description" : "Date Time When shoot was approved in PIM"
+        },
+        "isDeleted" : {
+          "type" : "boolean",
+          "description" : "Defines if the Shoot instance is open or closed. isDeleted = true is equal to closed shoot"
+        }
+      }
+    },
+    "shootRejections" : {
+      "type" : "object",
+      "properties" : {
+        "rejectionReason" : {
+          "type" : "string",
+          "description" : "The reason what images have been rejected within the studios workflow\n- Data type: Text\n- Data Length: 35"
+        },
+        "rejectedShootFunction" : {
+          "type" : "array",
+          "description" : "Defines the rejected shoot function\n- Data Type: Text\n- Data Length: 20",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "rejectedEnrichmentGoal" : {
+          "type" : "string",
+          "description" : "Defines the rejected enrichment goal\n- Data Type: Text\n- Data Length: 30"
+        },
+        "rejectionRecipient" : {
+          "type" : "string",
+          "description" : "Defines the recepients for the rejection. Sample Values: Shoot Ops (Model Booking)\n- Data Type: Text\n- Data Length: 30"
+        },
+        "rejectionResponseIndicator" : {
+          "type" : "string",
+          "description" : "Defines the rejection response. Sample values: ACCEPT or REJECT\n- Data Type: Text\n- Data Length: 10"
+        },
+        "productManagementRejectionComments" : {
+          "type" : "string",
+          "description" : "Defines the rejection comments from PIM for Rejection Of Rejection"
+        },
+        "rejectionDateTime" : {
+          "type" : "string",
+          "format" : "date-time",
+          "description" : "Defines the date time when the rejection response was recorded"
+        }
+      }
+    },
+    "ShootOps" : {
+      "type" : "object",
+      "required" : [ "colourwayID", "createdDateTime", "isCreative", "lastUpdatedDateTime", "productManagementLastUpdatedTS", "shootOpsLifeCycleStatus" ],
+      "properties" : {
+        "colourwayID" : {
+          "type" : "number",
+          "description" : "In Digital Core this will be generated in STEP. This will be a unique ID per colourway\n- Data type: Number\n- Data Length: 10"
+        },
+        "shootOpsLifeCycleStatus" : {
+          "type" : "string",
+          "description" : "Defines the shoot life cycle status of a colourway. Sample Values: New, Reshoot"
+        },
+        "shootOpsWorkFlowStatus" : {
+          "type" : "string",
+          "description" : "Defines the shoot ops work flow status for a colourway. Sample Value: rejection"
+        },
+        "isCreative" : {
+          "type" : "boolean",
+          "description" : "Flag to indicate a product that requires alternative treatment"
+        },
+        "shootComments" : {
+          "type" : "string",
+          "description" : "Defines the shoot comments at colourway level"
+        },
+        "reShootReason" : {
+          "type" : "string",
+          "description" : "Defines the reasone codes for re shoot"
+        },
+        "colourwayAttributes" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/ProductManagementAttribute"
+          }
+        },
+        "productionShoots" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/ProductionShoot"
+          }
+        },
+        "productManagementLastUpdatedTS" : {
+          "type" : "string",
+          "format" : "date-time",
+          "description" : "Date time when the colourway-To-ShootSchedule document was last updated in Product Management Data Store. Used by consumers to cater for race conditions."
+        },
+        "createdDateTime" : {
+          "type" : "string",
+          "format" : "date-time",
+          "description" : "DateTime at which Object was first created in STEP"
+        },
+        "lastUpdatedDateTime" : {
+          "type" : "string",
+          "format" : "date-time",
+          "description" : "DateTime at which Object was last updated in STEP"
+        },
+        "deletedDateTime" : {
+          "type" : "string",
+          "format" : "date-time",
+          "description" : "DateTime at which the Object was deleted in STEP"
+        }
+      }
+    },
+    "ProductGroups" : {
+      "type" : "object",
+      "required" : [ "createdDateTime", "groupComponents", "groupID", "groupType", "lastUpdatedDateTime", "productManagementLastUpdatedTS", "retailGroupID", "status" ],
+      "properties" : {
+        "groupID" : {
+          "type" : "number",
+          "description" : "Unique identifier for each group"
+        },
+        "legacyGroupID" : {
+          "type" : "number",
+          "description" : "Merret Group ID"
+        },
+        "retailGroupID" : {
+          "type" : "number",
+          "description" : "Retail source attribute with the ID fof the Retail Group attribute.\n- Data Type: Number\n- Data Length: 4"
+        },
+        "retailGroupTitle" : {
+          "type" : "string",
+          "description" : "RMS Group description"
+        },
+        "customerGroupTitle" : {
+          "type" : "string",
+          "description" : "PIM Group Description (Re-Mastered)"
+        },
+        "status" : {
+          "type" : "string",
+          "description" : "Defines Status. Sample Values: Published/Unpublished"
+        },
+        "groupType" : {
+          "$ref" : "#/definitions/GroupType"
+        },
+        "productionAsset" : {
+          "type" : "object",
+          "properties" : {
+            "images" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/definitions/Image"
+              }
+            },
+            "video" : {
+              "$ref" : "#/definitions/Video"
+            },
+            "spinset" : {
+              "$ref" : "#/definitions/Spinset"
+            }
+          }
+        },
+        "groupComponents" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/groupComponent"
+          }
+        },
+        "productManagementLastUpdatedTS" : {
+          "type" : "string",
+          "format" : "date-time",
+          "description" : "DateTime at which Object was Created/updated in Data Store"
+        },
+        "createdDateTime" : {
+          "type" : "string",
+          "description" : "DateTime at which Object was first created in STEP"
+        },
+        "lastUpdatedDateTime" : {
+          "type" : "string",
+          "description" : "DateTime at which Object was last updated in STEP"
+        },
+        "deletedDateTime" : {
+          "type" : "string",
+          "description" : "DateTime at which the Object was deleted in STEP"
+        }
+      }
+    },
+    "GroupType" : {
+      "type" : "object",
+      "required" : [ "groupTypeID", "groupTypeName", "isMutiAssociation" ],
+      "properties" : {
+        "groupTypeID" : {
+          "type" : "number"
+        },
+        "groupTypeName" : {
+          "type" : "string"
+        },
+        "isMutiAssociation" : {
+          "type" : "boolean"
+        }
+      }
+    },
+    "groupComponent" : {
+      "type" : "object",
+      "required" : [ "colourwayID", "productID", "sequence" ],
+      "properties" : {
+        "productID" : {
+          "type" : "number"
+        },
+        "colourwayID" : {
+          "type" : "number"
+        },
+        "sequence" : {
+          "type" : "number",
+          "description" : "Sequence in which components are displayed on PDP"
+        }
+      }
+    },
+    "ShootStaff" : {
+      "type" : "object",
+      "required" : [ "roleName", "shootStaffID" ],
+      "properties" : {
+        "roleName" : {
+          "type" : "string",
+          "description" : "The role(s) assigned to a PIM or DAM user\n- Data Type: Text\n- Data Length: 20"
+        },
+        "shootStaffID" : {
+          "type" : "string",
+          "description" : "The unique system ID assigned to a PIM or DAM user. Email Id of the Shoot Staff\n- Data Type: Text\n- Data Length: 50"
+        },
+        "shootStaffName" : {
+          "type" : "string",
+          "description" : "The first name and last name of a PIM or DAM user set up in PIM\n- Data Type: Text\n- Data Length: 30"
+        }
+      }
+    },
+    "Image" : {
+      "type" : "object",
+      "required" : [ "assetID", "assetName", "assetSequence", "productManagementAssetURL" ],
+      "properties" : {
+        "assetID" : {
+          "type" : "number",
+          "description" : "Digital Asset ID\n- Data Type: Number\n- Data Length: 40"
+        },
+        "assetName" : {
+          "type" : "string",
+          "description" : "Defines the name for an asset\n- Data type: Text\n- Data Length: 100"
+        },
+        "assetSequence" : {
+          "type" : "number",
+          "description" : "The order in which the asset needs to be displayed on the website\n- Data Type: Number\n- Data Length: 1"
+        },
+        "productManagementAssetURL" : {
+          "type" : "string",
+          "description" : "The is the asset URL internal to PIM which will have either the DAM URL or Scene7 URL based on the status of the shoot workflow\n- Data Type: Text\n- Data Length: 4000"
+        },
+        "assetManagementPublishedURL" : {
+          "type" : "string",
+          "description" : "The Scene7 public URL used to retrieve the asset from Scene 7\n- Data Type: Text\n- Data Length: 4000"
+        },
+        "assetManagementPrimaryURL" : {
+          "type" : "string",
+          "description" : "DAM mastered: The DAM URL to locate the asset\n- Data Type: Text\n- Data Length: 4000"
+        },
+        "modelID" : {
+          "type" : "array",
+          "description" : "The unique system ID assigned to a model\n- Data Type: Number\n- Data Length: 40",
+          "items" : {
+            "type" : "number"
+          }
+        },
+        "externalAssetID" : {
+          "type" : "string",
+          "description" : "P1: Legacy Asset ID\nP2: Digital Asset Management system (DAM) Identifier for the Asset\n\nData Type: Text\nData Length: 18"
+        }
+      }
+    },
+    "Spinset" : {
+      "type" : "object",
+      "required" : [ "assetID", "assetName", "productManagementAssetURL" ],
+      "properties" : {
+        "assetID" : {
+          "type" : "number",
+          "description" : "Digital Asset ID\n\n- Data Type: Number\n- Data Length: 40"
+        },
+        "assetName" : {
+          "type" : "string",
+          "description" : "Unique name for an spinset asset\n- Data Type: Text\n- Data Length: 100"
+        },
+        "assetManagementPublishedURL" : {
+          "type" : "string",
+          "description" : "The Scene7 public URL used to retrieve the asset from Scene 7\n\n- Data Type: Text\n- Data Length: 4000"
+        },
+        "assetManagementPrimaryURL" : {
+          "type" : "string",
+          "description" : "DAM mastered: The DAM URL to locate the asset\n\n- Data Type: Text\n- Data Length: 4000"
+        },
+        "productManagementAssetURL" : {
+          "type" : "string",
+          "description" : "The is the asset URL internal to PIM which will have either the DAM URL or Scene7 URL based on the status of the shoot workflow\n\n- Data Type: Text\n- Data Length: 4000"
+        },
+        "modelID" : {
+          "type" : "array",
+          "description" : "The unique system ID assigned to a model\n\n- Data Type: Number\n- Data Length: 40",
+          "items" : {
+            "type" : "number"
+          }
+        },
+        "externalAssetID" : {
+          "type" : "string",
+          "description" : "P1: Legacy Asset ID P2: Digital Asset Management system (DAM) Identifier for the Asset\n\nData Type: Text Data Length: 18"
+        }
+      }
+    },
+    "Video" : {
+      "type" : "object",
+      "required" : [ "assetID", "assetName", "productManagementAssetURL" ],
+      "properties" : {
+        "assetID" : {
+          "type" : "number",
+          "description" : "Digital Asset ID\n\n- Data Type: Number\n- Data Length: 40"
+        },
+        "assetName" : {
+          "type" : "string",
+          "description" : "Unique name of a Video Asset\n- Data Type: Text\n- Data Length: 100"
+        },
+        "assetManagementPublishedURL" : {
+          "type" : "string",
+          "description" : "The Scene7 public URL used to retrieve the asset from Scene 7\n\n- Data Type: Text\n- Data Length: 4000"
+        },
+        "assetManagementPrimaryURL" : {
+          "type" : "string",
+          "description" : "DAM mastered: The DAM URL to locate the asset\n\n- Data Type: Text\n- Data Length: 4000"
+        },
+        "productManagementAssetURL" : {
+          "type" : "string",
+          "description" : "The is the asset URL internal to PIM which will have either the DAM URL or Scene7 URL based on the status of the shoot workflow\n\n- Data Type: Text\n- Data Length: 4000"
+        },
+        "modelID" : {
+          "type" : "array",
+          "description" : "The unique system ID assigned to a model\n\n- Data Type: Number\n- Data Length: 40",
+          "items" : {
+            "type" : "number"
+          }
+        },
+        "externalAssetID" : {
+          "type" : "string",
+          "description" : "P1: Legacy Asset ID P2: Digital Asset Management system (DAM) Identifier for the Asset\n\nData Type: Text Data Length: 18"
+        }
+      }
+    },
+    "ProductLookUp" : {
+      "type" : "object",
+      "required" : [ "colourways", "productID", "productManagementLastUpdatedTS", "retailStyleID" ],
+      "properties" : {
+        "productID" : {
+          "type" : "number",
+          "description" : "The [style level] inventory ID for the product that is generated by BackOffice and is displayed in the URL for the PDP. \nR3: When RMS is live, this will be generated and mastered by STEP\n- Data type: Number\n- Data Length:40"
+        },
+        "retailStyleID" : {
+          "type" : "string",
+          "description" : "The Retail source system generated [style level] ID for the product populated from the RMS Style attribute.\nFor products migrated from Merret into RMS, this will be the existing Merret value shown currently on the PDP.\nFor products raised in RMS and which will be grouped in Digital Core (Face + Body products) this will be StyleID_RangeShopByFitID\nOn item creation in PIM, this will need to be transformed into the Style Level of the hierarchy.\n- Data Type: Text\n- Data Length: 25"
+        },
+        "legacyStyleID" : {
+          "type" : "number",
+          "description" : "Existing Merret Style ID. This is the Product Code that is displayed on the PDP\nThis will be populated for all migrated products. For new products raised in RMS it will be blank\n- Data Type: Number\n- Data Length: 10"
+        },
+        "colourways" : {
+          "type" : "array",
+          "items" : {
+            "required" : [ "colourwayID", "retailOptionID", "variants" ],
+            "type" : "object",
+            "properties" : {
+              "colourwayID" : {
+                "type" : "number",
+                "description" : "In Digital Core this will be generated in STEP. This will be a unique ID per colourway\n- Data Type: Number\n- Data Length: 40"
+              },
+              "retailOptionID" : {
+                "type" : "string",
+                "description" : "This is the RMS Option ID and can have multiple values for a colourway.\n- Data Type: Text\n- Data Length: 25"
+              },
+              "legacyOptionID" : {
+                "type" : "string",
+                "description" : "This is the combination of [style level] Merret ID and ColourCode and is used for sample scan in fashion gps\n- Data Type: Text\n- Data Length: 10"
+              },
+              "variants" : {
+                "type" : "array",
+                "items" : {
+                  "required" : [ "retailSKUID", "variantID" ],
+                  "type" : "object",
+                  "properties" : {
+                    "variantID" : {
+                      "type" : "number",
+                      "description" : "The [variant level] inventory ID for the product that is generated by BackOffice and is displayed in the URL for the PDP when size is added to bag. This is the step id and post TGR, this will be generated and mastered by STEP\n- Data Type: Number\n- Data Length: 40"
+                    },
+                    "retailSKUID" : {
+                      "type" : "string",
+                      "description" : "This is the retail source system variant (size) level identifier and is a one  to one mapping to each variant.\n- Data type: Text\n- Data Length: 25"
+                    },
+                    "legacySKUID" : {
+                      "type" : "number",
+                      "description" : "This is the Merret ID at a SKU level and is used for calling the pricing service. This is sourced from the ExternalID column in the Back Office Inventory Table\nThis will exist for migrated products. For new products it will be blank\n- Data Type: Number\n- Data Length: 20"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "productManagementLastUpdatedTS" : {
+          "type" : "string",
+          "description" : "Date time product was last updated in Product Management Data Store. Used by consumers to cater for race conditions"
+        }
+      }
+    },
+    "VariantStoreData" : {
+      "type" : "object",
+      "required" : [ "digitalStoreID", "lastUpdatedDateTime", "retailStoreID" ],
+      "properties" : {
+        "retailStoreID" : {
+          "type" : "number"
+        },
+        "digitalStoreID" : {
+          "type" : "string"
+        },
+        "availableToSellDate" : {
+          "type" : "string",
+          "format" : "date-time",
+          "description" : "P2: Available to Sell Date will be populated in Back office when the Go Live checkbox is set in Merret. The import into PIM will trigger the publish od the product to Catalogue\nR3: Available to Sell Date will be populated by Retail in the retail source system once they have completed their own data checks on the item. Receipt of an available to sell date will trigger PIM checks for no dummy data on commodity Code and country of manufacture or fabric composition\n- Data Type: DateTime"
+        },
+        "dateOnSite" : {
+          "type" : "string",
+          "format" : "date",
+          "description" : "This is a derived date that is the later of Go live Date, Date of the first Stock Event from Stock Service and the Translation Date. This date will be calculated by product catalogue and mastered in product catalogue\nThis is used to determine newness for products on the category pages\nThe date is also used to report on model tenure.\n- Data Type: DateTime"
+        },
+        "isOnQuery" : {
+          "type" : "boolean"
+        },
+        "lastUpdatedDateTime" : {
+          "type" : "string",
+          "format" : "date-time"
+        }
+      }
+    },
+    "BuyTheLookGroup" : {
+      "type" : "object",
+      "required" : [ "colourwayID", "productID", "sequence" ],
+      "properties" : {
+        "productID" : {
+          "type" : "number",
+          "description" : "Product Id of the component product"
+        },
+        "colourwayID" : {
+          "type" : "number",
+          "description" : "Colourway ID for the component colourway"
+        },
+        "sequence" : {
+          "type" : "number",
+          "description" : "Defines the sequence of the group component"
+        }
+      }
+    }
+  }
+}

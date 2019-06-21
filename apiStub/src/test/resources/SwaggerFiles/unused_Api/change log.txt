@@ -1,0 +1,19 @@
+30/07/2018:
+1. Added attributeType String-Mandatory to attribute&LOV endpoint - for catalog
+
+23/05/2018:
+1. Added isMultiValued and assignmentLevel for new metadata for all the attributes.
+2. Added isGrouped to define the "Face&Body" OR "fashion" Product Types.
+
+16/03/2018
+1. Updated createDateTime to createdDateTime (Suggested by Product Catalog team)
+2. Updated lastUpdateDateTime to lastUpdatedDateTime (Suggested by Product Catalog team)
+3. Added productManagementLastUpdatedTS to all the resources.
+
+Holds the date time for the last update in data store.
+
+09/02/2018
+Attribute:
+
+1.Added retailAttributeID as query parameter
+2. Added assignment level in attribute resource - This should be used by imtegration team to decide the roll up logic in 202

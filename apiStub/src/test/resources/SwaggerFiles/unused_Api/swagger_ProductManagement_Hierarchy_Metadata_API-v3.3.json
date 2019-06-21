@@ -1,0 +1,687 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "description" : "This definition is to support working with the product management Hierarchy and Metadata ",
+    "version" : "3.1",
+    "title" : "Product Management Hierarchy Metadata API",
+    "contact" : { }
+  },
+  "host" : "api.asos.com",
+  "basePath" : "/productmanagement/metadata/v1",
+  "schemes" : [ "https" ],
+  "consumes" : [ "application/json" ],
+  "produces" : [ "application/json" ],
+  "security" : [ {
+    "HTTPS_BASIC" : [ ]
+  } ],
+  "paths" : {
+    "/sellingtags" : {
+      "get" : {
+        "summary" : "Fetch all or specific Selling Tags",
+        "description" : "This method will return an array of selling tags and associated metadata. If no parameter is passed it should throw an exception.",
+        "parameters" : [ {
+          "name" : "sellingTagIDs",
+          "in" : "query",
+          "required" : true,
+          "type" : "array",
+          "description" : "List of Selling Tag IDs",
+          "items" : {
+            "type" : "number"
+          }
+        }, {
+          "name" : "asos-cid",
+          "in" : "header",
+          "required" : false,
+          "type" : "string",
+          "description" : "Correlation ID (GUID) to aid correlation between API calls"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/definitions/SellingTag"
+              }
+            },
+            "examples" : {
+              "application/json" : "{\n\t\t\"sellingTagID\": 1122,\n\t\t\"sellingTagName\": \"90s Retro\",\n\t\t\"effectiveFromDate\": \"2017-05-04 17:31:18\",\n\t\t\"effectiveToDate\": \"2017-05-08 13:40:56\",\n\t\t\"sellingTagType\": {\n\t\t\t\"sellingTagTypeID\": \"TRENDS\",\n\t\t\t\"sellingTagTypeName\": \"TRENDS\"\n\t\t},\n\t\t\"classification\": {\n\t\t\t\"classificationID\": \"SELLING_TAG_ROOT\",\n\t\t\t\"classificationName\": \"ASOS Selling Tag\"\n\t\t},\n\t\t\"createdDateTime\": \"2017-05-10 13:44:41\",\n\t\t\"lastUpdatedDateTime\": \"2017-06-11 12:00:41\",\n\t\t\"productManagementLastUpdatedTS\": \"2017-06-11 12:00:41\"\n\t}"
+            },
+            "headers" : {
+              "asos-cid" : {
+                "type" : "string",
+                "description" : "Correlation ID (GUID) to aid correlation between API calls"
+              },
+              "asos-TimeToProcessMilliseconds" : {
+                "type" : "string",
+                "description" : "Amount of time in milliseconds it took to process the request"
+              }
+            }
+          },
+          "400" : {
+            "description" : "Bad Request",
+            "schema" : {
+              "$ref" : "#/definitions/Error"
+            },
+            "examples" : {
+              "application/json" : "\"error\": { \"errorCode\": \"PM_PRODUCT_BADREQUEST\",    \"parameterName\": \"Name of the request parameter\",    \"errorMessage\": \"Invalid Parameter Value\"  }"
+            },
+            "headers" : {
+              "asos-cid" : {
+                "type" : "string",
+                "description" : "Correlation ID (GUID) to aid correlation between API calls"
+              }
+            }
+          },
+          "500" : {
+            "description" : "Internal Server Error",
+            "schema" : {
+              "$ref" : "#/definitions/Error"
+            },
+            "examples" : {
+              "application/json" : "\"error\": { \"errorCode\": \"PM_PRODUCT_INTERNALSERVERERROR\",    \"errorMessage\": \"Product Management Metadata Attribute Service is not available\" }"
+            },
+            "headers" : {
+              "asos-cid" : {
+                "type" : "string",
+                "description" : "Correlation ID (GUID) to aid correlation between API calls"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/attributes" : {
+      "get" : {
+        "summary" : "Fetch all or specific Product Attributes",
+        "description" : "This method will return an array of product attributes along with the associated list of values(if any) and other metadata.  If no parameter is passed it should throw an exception.\nThis resource will also be used by Integration team to build 202 and 205 Interfaces.",
+        "parameters" : [ {
+          "name" : "attributeIDs",
+          "in" : "query",
+          "required" : false,
+          "type" : "array",
+          "description" : "List of Attribute IDs",
+          "items" : {
+            "type" : "number"
+          }
+        }, {
+          "name" : "attributeNameID",
+          "in" : "query",
+          "required" : false,
+          "type" : "array",
+          "description" : "List of attribute Name IDs",
+          "items" : {
+            "type" : "string"
+          },
+          "x-example" : "RMSDenimWashColour"
+        }, {
+          "name" : "retailAttributeID",
+          "in" : "query",
+          "required" : false,
+          "type" : "array",
+          "description" : "List of RMS Attribute IDs",
+          "items" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "asos-cid",
+          "in" : "header",
+          "required" : false,
+          "type" : "string",
+          "description" : "Correlation ID (GUID) to aid correlation between API calls"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/definitions/ProductManagementAttribute"
+              }
+            },
+            "examples" : {
+              "application/json" : "{\n\t\t\"attributeNameID\": \"RMSDenimWashColour\",\n\t\t\"attributeID\": 1019,\n\t\t\"retailAttributeID\": \"1212\",\n\t\t\"attributeName\": \"RMS Denim Wash Colour\",\n\t\t\"groupName\": \"DAM\",\n\t\t\"useForTranslation\": true,\n\t\t\"useForRefinement\": true,\n\t\t\"attributeValues\": [\n\t\t\t{\n\t\t\t\t\"valueID\": 7707,\n\t\t\t\t\"value\": \"Inidigo\"\n\t\t\t},\n\t\t\t{\n\t\t\t\t\"valueID\": 5675,\n\t\t\t\t\"value\": \"White\"\n\t\t\t},\n\t\t\t{\n\t\t\t\t\"valueID\": 5671,\n\t\t\t\t\"value\": \"Lightwash Blue\"\n\t\t\t}\n\t\t],\n\t\t\"assignmentLevel\": \"LEVEL6\",\n\t\t\"createdDateTime\": \"2017-05-10 13:44:41\",\n\t\t\"lastUpdatedDateTime\": \"2017-06-11 12:00:41\",\n\t\t\"productManagementLastUpdatedTS\": \"2017-06-11 12:00:41\"\n\t}"
+            },
+            "headers" : {
+              "asos-cid" : {
+                "type" : "string",
+                "description" : "Correlation ID (GUID) to aid correlation between API calls"
+              },
+              "asos-TimeToProcessMilliseconds" : {
+                "type" : "string",
+                "description" : "Amount of time in milliseconds it took to process the request"
+              }
+            }
+          },
+          "400" : {
+            "description" : "Bad Request",
+            "schema" : {
+              "$ref" : "#/definitions/Error"
+            },
+            "examples" : {
+              "application/json" : "\"error\": { \"errorCode\": \"PM_PRODUCT_BADREQUEST\",    \"parameterName\": \"Name of the request parameter\",    \"errorMessage\": \"Invalid Parameter Value\"  }"
+            },
+            "headers" : {
+              "asos-cid" : {
+                "type" : "string",
+                "description" : "Correlation ID (GUID) to aid correlation between API calls"
+              }
+            }
+          },
+          "500" : {
+            "description" : "Internal Server Error",
+            "schema" : {
+              "$ref" : "#/definitions/Error"
+            },
+            "examples" : {
+              "application/json" : "\"error\": { \"errorCode\": \"PM_PRODUCT_INTERNALSERVERERROR\",    \"errorMessage\": \"Product Management Metadata Attribute Service is not available\" }"
+            },
+            "headers" : {
+              "asos-cid" : {
+                "type" : "string",
+                "description" : "Correlation ID (GUID) to aid correlation between API calls"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/producttypehierarchy" : {
+      "get" : {
+        "summary" : "Fetch all or specific Product Types",
+        "description" : "This method will return an array of Product Types and hierarchy. If no parameter is passed then raise an exception.",
+        "parameters" : [ {
+          "name" : "productTypeIDs",
+          "in" : "query",
+          "required" : true,
+          "type" : "array",
+          "description" : "List of Product Type IDs",
+          "items" : {
+            "type" : "number"
+          }
+        }, {
+          "name" : "asos-cid",
+          "in" : "header",
+          "required" : false,
+          "type" : "string",
+          "description" : "Correlation ID (GUID) to aid correlation between API calls"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/definitions/ProductType"
+              }
+            },
+            "examples" : {
+              "application/json" : "{\n\t\t\"productTypeID\": 8415,\n\t\t\"productTypeName\": \"T-shirts\",\n\t\t\"Level0\": {\n\t\t\t\"level0ID\": \"ASOSProducts\",\n\t\t\t\"level0Name\": \"ASOS Products\"\n\t\t},\n\t\t\"Level1\": {\n\t\t\t\"level1Name\": \"Clothing\",\n\t\t\t\"level1ID\": 137630\n\t\t},\n\t\t\"Level2\": {\n\t\t\t\"level2Name\": \"Tops\",\n\t\t\t\"level2ID\": 137635\n\t\t},\n\t\t\"Level3\": {\n\t\t\t\"level3Name\": \"Tops\",\n\t\t\t\"level3ID\": 137636\n\t\t},\n\t\t\"productManagementAttributes\": [{\n\t\t\t\t\"attributeNameID\": \"RMSWardrobeEssentials\"\n\t\t\t},\n\t\t\t{\n\t\t\t\t\"attributeNameID\": \"PIMFabricWeight\"\n\t\t\t},\n\t\t\t{\n\t\t\t\t\"attributeNameID\": \"RMSDesign\"\n\t\t\t},\n\t\t\t{\n\t\t\t\t\"attributeNameID\": \"PIMDesign\"\n\t\t\t},\n\t\t\t{\n\t\t\t\t\"attributeNameID\": \"RMSWeight\"\n\t\t\t},\n\t\t\t{\n\t\t\t\t\"attributeNameID\": \"PocketDetails\"\n\t\t\t},\n\t\t\t{\n\t\t\t\t\"attributeNameID\": \"PIMNeck\"\n\t\t\t},\n\t\t\t{\n\t\t\t\t\"attributeNameID\": \"CopySleeveLength\"\n\t\t\t},\n\t\t\t{\n\t\t\t\t\"attributeNameID\": \"AboutMeAdditionalInfo\"\n\t\t\t},\n\t\t\t{\n\t\t\t\t\"attributeNameID\": \"AdditionalDetails\"\n\t\t\t},\n\t\t\t{\n\t\t\t\t\"attributeNameID\": \"FacetSleeveLength\"\n\t\t\t},\n\t\t\t{\n\t\t\t\t\"attributeNameID\": \"PIMCollar\"\n\t\t\t},\n\t\t\t{\n\t\t\t\t\"attributeNameID\": \"FitFacet\"\n\t\t\t},\n\t\t\t{\n\t\t\t\t\"attributeNameID\": \"Hem\"\n\t\t\t},\n\t\t\t{\n\t\t\t\t\"attributeNameID\": \"MaternitySnip\"\n\t\t\t},\n\t\t\t{\n\t\t\t\t\"attributeNameID\": \"PIMMultipackSize\"\n\t\t\t},\n\t\t\t{\n\t\t\t\t\"attributeNameID\": \"Lining\"\n\t\t\t},\n\t\t\t{\n\t\t\t\t\"attributeNameID\": \"FitInfo\"\n\t\t\t},\n\t\t\t{\n\t\t\t\t\"attributeNameID\": \"FabricOrFinishDescription\"\n\t\t\t},\n\t\t\t{\n\t\t\t\t\"attributeNameID\": \"CareInstruction\"\n\t\t\t},\n\t\t\t{\n\t\t\t\t\"attributeNameID\": \"CareSnip\"\n\t\t\t},\n\t\t\t{\n\t\t\t\t\"attributeNameID\": \"Disclaimer\"\n\t\t\t},\n\t\t\t{\n\t\t\t\t\"attributeNameID\": \"ProductManagementComposition\"\n\t\t\t},\n\t\t\t{\n\t\t\t\t\"attributeNameID\": \"BrandFabricDetails\"\n\t\t\t},\n\t\t\t{\n\t\t\t\t\"attributeNameID\": \"SleeveDetails\"\n\t\t\t}\n\t\t],\n\n\t\t\"createdDateTime\": \"2017-05-10 13:44:41\",\n\t\t\"lastUpdatedDateTime\": \"2017-06-11 12:00:41\",\n\t\t\"productManagementLastUpdatedTS\": \"2017-06-11 12:00:41\"\n\t}"
+            },
+            "headers" : {
+              "asos-cid" : {
+                "type" : "string",
+                "description" : "Correlation ID (GUID) to aid correlation between API calls"
+              },
+              "asos-TimeToProcessMilliseconds" : {
+                "type" : "string",
+                "description" : "Amount of time in milliseconds it took to process the request"
+              }
+            }
+          },
+          "400" : {
+            "description" : "Bad Request",
+            "schema" : {
+              "$ref" : "#/definitions/Error"
+            },
+            "examples" : {
+              "application/json" : "\"error\": { \"errorCode\": \"PM_PRODUCT_BADREQUEST\",    \"parameterName\": \"Name of the request parameter\",    \"errorMessage\": \"Invalid Parameter Value\"  }"
+            },
+            "headers" : {
+              "asos-cid" : {
+                "type" : "string",
+                "description" : "Correlation ID (GUID) to aid correlation between API calls"
+              }
+            }
+          },
+          "500" : {
+            "description" : "Internal Server Error",
+            "schema" : {
+              "$ref" : "#/definitions/Error"
+            },
+            "examples" : {
+              "application/json" : "\"error\": { \"errorCode\": \"PM_PRODUCT_INTERNALSERVERERROR\",    \"errorMessage\": \"Product Management Metadata Attribute Service is not available\" }"
+            },
+            "headers" : {
+              "asos-cid" : {
+                "type" : "string",
+                "description" : "Correlation ID (GUID) to aid correlation between API calls"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/brands" : {
+      "get" : {
+        "summary" : "Fetch all or specific brand information",
+        "description" : "This method will return an array of brands and associated metadata. If no parameter is passed then an exception nees to be raised.",
+        "parameters" : [ {
+          "name" : "brandIDs",
+          "in" : "query",
+          "required" : true,
+          "type" : "array",
+          "description" : "List of BrandIDs",
+          "items" : {
+            "type" : "number"
+          }
+        }, {
+          "name" : "asos-cid",
+          "in" : "header",
+          "required" : false,
+          "type" : "string",
+          "description" : "Correlation ID (GUID) to aid correlation between API calls"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Success",
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/definitions/Brand"
+              }
+            },
+            "examples" : {
+              "application/json" : "//This is a mocked up sample, we will publish the actual samples once the pipelines are ready.\n{\n\t \"brandID\": 17,\n\t \"brandName\": \"Adidas\",\n\t \"menBrandFacet\": \"&lt;Hptcs target=&quot;/Men/A-To-Z-Of-Brands/Adidas-Originals/Cat/pgecategory.aspx?cid=7113&quot;&gt;adidas&lt;/Hptcs&gt;\",\n\t \"womenBrandFacet\": \"&lt;Hptcs target=&quot;/women/a-to-z-of-brands/adidas/cat/?cid=5906&quot;&gt;Adidas&lt;/Hptcs&gt;\",\n\t \"menBrandDescription\": \"ABOUT ADIDAS Iconic sportswear label adidas was founded in Germany by Adolf 'Adi' Dassler back in 1949. The brand creates sportswear built for functionality, with a conscious, design led ethos. Creating everything from street-smart styles to retro inspired pieces, adidas pride themselves on their history of innovation and cutting edge design.\",\n\t \"womenBrandDescription\": \"ABOUT ADIDAS With a brand history stretching back more than 60 years, adidas draws inspiration from street culture and retro styles to provide fresh, vintage-inspired collections. The adidas Originals range incorporates everything, from the brand's most iconic trainers to new jersey pieces.\",\n\t \"classification\": {\n\t\t \"classificationID\": \"Brand_Root\",\n\t\t \"classificationName\": \"ASOS Brand Root\"\n\t},\n\t \"subBrand\": {\n\t\t \"subBrandID\": 180436,\n\t\t \"subBrandName\": \"Adidas football\",\n\t\t \"menSubBrandFacet\": \"&lt;Hptcs target=&quot;/Men/A-To-Z-Of-Brands/Adidas-Originals/Cat/pgecategory.aspx?cid=7113&quot;&gt;adidas&lt;/Hptcs&gt;\",\n\t\t \"womenSubBrandFacet\": \"&lt;Hptcs target=&quot;/Women/A-To-Z-Of-Brands/Adidas-Originals/Cat/pgecategory.aspx?cid=7113&quot;&gt;adidas&lt;/Hptcs&gt;\",\n\t\t \"menSubBrandDescription\": \"ABOUT ADIDAS FOOTBALL Inspired by the beautiful game, adidas Football unlocks your potential with its training gear and footwear. Hit the practice pitch in breathable tech tees and shorts, or hone your ball control with box-fresh boots made for a variety of terrains from artificial grass to indoor surfaces. Our edit also includes the brand&amp;rsquo;s iconic Nemeziz football trainers, developed for and worn by Lionel Messi.\",\n\t\t \"womenSubBrandDescription\": \"ABOUT ADIDAS FOOTBALL Inspired by the beautiful game, adidas Football unlocks your potential with its training gear and footwear. Hit the practice pitch in breathable tech tees and shorts, or hone your ball control with box-fresh boots made for a variety of terrains from artificial grass to indoor surfaces. Our edit also includes the brand&amp;rsquo;s iconic Nemeziz football trainers, developed for and worn by Lionel Messi.\"\n\t},\n\t\"createdDateTime\": \"2017-05-10 13:44:41\",\n\t\t\"lastUpdatedDateTime\": \"2017-06-11 12:00:41\",\n\t\t\"productManagementLastUpdatedTS\": \"2017-06-11 12:00:41\"\n}"
+            },
+            "headers" : {
+              "asos-cid" : {
+                "type" : "string",
+                "description" : "Correlation ID (GUID) to aid correlation between API calls"
+              },
+              "asos-TimeToProcessMilliseconds" : {
+                "type" : "string",
+                "description" : "Amount of time in milliseconds it took to process the request"
+              }
+            }
+          },
+          "400" : {
+            "description" : "Bad Request",
+            "schema" : {
+              "$ref" : "#/definitions/Error"
+            },
+            "examples" : {
+              "application/json" : "\"error\": { \"errorCode\": \"PM_PRODUCT_BADREQUEST\",    \"parameterName\": \"Name of the request parameter\",    \"errorMessage\": \"Invalid Parameter Value\"  }"
+            },
+            "headers" : {
+              "asos-cid" : {
+                "type" : "string",
+                "description" : "Correlation ID (GUID) to aid correlation between API calls"
+              }
+            }
+          },
+          "500" : {
+            "description" : "Internal Server Error",
+            "schema" : {
+              "$ref" : "#/definitions/Error"
+            },
+            "examples" : {
+              "application/json" : "\"error\": { \"errorCode\": \"PM_PRODUCT_INTERNALSERVERERROR\",    \"errorMessage\": \"Product Management Metadata Attribute Service is not available\" }"
+            },
+            "headers" : {
+              "asos-cid" : {
+                "type" : "string",
+                "description" : "Correlation ID (GUID) to aid correlation between API calls"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "securityDefinitions" : {
+    "HTTPS_BASIC" : {
+      "type" : "basic"
+    }
+  },
+  "definitions" : {
+    "Error" : {
+      "type" : "object",
+      "required" : [ "errorCode" ],
+      "properties" : {
+        "errorCode" : {
+          "type" : "string",
+          "description" : "Error Code",
+          "enum" : [ "PM_PRODUCT_BADREQUEST", "PM_PRODUCT_NOTFOUND", "PM_PRODUCT_INTERNALSERVERERROR" ]
+        },
+        "parameterName" : {
+          "type" : "string",
+          "description" : "Name of Parameter that caused an error"
+        },
+        "errorMessage" : {
+          "type" : "string",
+          "description" : "This is an optional developer error description"
+        }
+      },
+      "example" : "\"error\": {   \"errorCode\": \"PM_PRODUCT_XXXX\",    \"parameterName\": \"Name of the request parameter\",    \"errorMessage\": \"Description of the error\"  }"
+    },
+    "classification" : {
+      "type" : "object",
+      "required" : [ "classificationID", "classificationName" ],
+      "properties" : {
+        "classificationID" : {
+          "type" : "string"
+        },
+        "classificationName" : {
+          "type" : "string"
+        }
+      }
+    },
+    "SellingTagType" : {
+      "type" : "object",
+      "required" : [ "sellingTagTypeID", "sellingTagTypeName" ],
+      "properties" : {
+        "sellingTagTypeID" : {
+          "type" : "string"
+        },
+        "sellingTagTypeName" : {
+          "type" : "string"
+        }
+      }
+    },
+    "SellingTag" : {
+      "type" : "object",
+      "required" : [ "classification", "createdDateTime", "effectiveFromDate", "lastUpdatedDateTime", "productManagementLastUpdatedTS", "sellingTagID", "sellingTagName", "sellingTagType" ],
+      "properties" : {
+        "sellingTagID" : {
+          "type" : "number"
+        },
+        "sellingTagName" : {
+          "type" : "string"
+        },
+        "effectiveFromDate" : {
+          "type" : "string",
+          "format" : "date-time"
+        },
+        "effectiveToDate" : {
+          "type" : "string",
+          "format" : "date-time"
+        },
+        "sellingTagType" : {
+          "$ref" : "#/definitions/SellingTagType"
+        },
+        "classification" : {
+          "$ref" : "#/definitions/classification"
+        },
+        "productManagementLastUpdatedTS" : {
+          "type" : "string",
+          "format" : "date-time",
+          "description" : "Holds the date time for the last update in data store."
+        },
+        "createdDateTime" : {
+          "type" : "string"
+        },
+        "lastUpdatedDateTime" : {
+          "type" : "string"
+        },
+        "deletedDateTime" : {
+          "type" : "string"
+        }
+      }
+    },
+    "Level0" : {
+      "type" : "object",
+      "required" : [ "level0ID", "level0Name" ],
+      "properties" : {
+        "level0ID" : {
+          "type" : "string"
+        },
+        "level0Name" : {
+          "type" : "string"
+        }
+      }
+    },
+    "Level1" : {
+      "type" : "object",
+      "required" : [ "level1ID", "level1Name" ],
+      "properties" : {
+        "level1ID" : {
+          "type" : "number"
+        },
+        "level1Name" : {
+          "type" : "string"
+        }
+      }
+    },
+    "Level2" : {
+      "type" : "object",
+      "required" : [ "level2ID", "level2Name" ],
+      "properties" : {
+        "level2ID" : {
+          "type" : "number"
+        },
+        "level2Name" : {
+          "type" : "string"
+        }
+      }
+    },
+    "Level3" : {
+      "type" : "object",
+      "required" : [ "level3ID", "level3Name" ],
+      "properties" : {
+        "level3ID" : {
+          "type" : "number"
+        },
+        "level3Name" : {
+          "type" : "string"
+        }
+      }
+    },
+    "ProductType" : {
+      "type" : "object",
+      "required" : [ "createdDateTime", "isGrouped", "lastUpdatedDateTime", "level0", "level1", "level2", "level3", "productManagementLastUpdatedTS", "productTypeID", "productTypeName" ],
+      "properties" : {
+        "productTypeID" : {
+          "type" : "number"
+        },
+        "productTypeName" : {
+          "type" : "string"
+        },
+        "level0" : {
+          "$ref" : "#/definitions/Level0"
+        },
+        "level1" : {
+          "$ref" : "#/definitions/Level1"
+        },
+        "level2" : {
+          "$ref" : "#/definitions/Level2"
+        },
+        "level3" : {
+          "$ref" : "#/definitions/Level3"
+        },
+        "isGrouped" : {
+          "type" : "boolean",
+          "description" : "Thsi attribute is to define if the product Type is Grouped OR Not. For Face & Body value is true and Fashion value is False"
+        },
+        "productManagementAttributes" : {
+          "type" : "array",
+          "description" : "List of Product Attributes assigned to each Product Type",
+          "items" : {
+            "required" : [ "attributeID", "attributeName" ],
+            "type" : "object",
+            "properties" : {
+              "attributeName" : {
+                "type" : "string",
+                "description" : "Business name for the attribute"
+              },
+              "attributeID" : {
+                "type" : "number",
+                "description" : "Numeric identifier of the attribute"
+              }
+            }
+          }
+        },
+        "productManagementLastUpdatedTS" : {
+          "type" : "string",
+          "format" : "date-time",
+          "description" : "Holds the date time for the last update in data store."
+        },
+        "createdDateTime" : {
+          "type" : "string"
+        },
+        "lastUpdatedDateTime" : {
+          "type" : "string"
+        },
+        "deletedDateTime" : {
+          "type" : "string"
+        }
+      }
+    },
+    "ProductManagementAttributeValue" : {
+      "type" : "array",
+      "items" : {
+        "required" : [ "value" ],
+        "type" : "object",
+        "properties" : {
+          "valueID" : {
+            "type" : "number"
+          },
+          "value" : {
+            "type" : "string"
+          }
+        }
+      }
+    },
+    "ProductManagementAttribute" : {
+      "type" : "object",
+      "required" : [ "assignmentLevel", "attributeID", "attributeName", "attributeNameID", "attributeType", "createdDateTime", "isMultiValued", "lastUpdatedDateTime", "productManagementLastUpdatedTS", "retailAttributeID", "useForRefinement", "useForTranslation" ],
+      "properties" : {
+        "attributeID" : {
+          "type" : "number",
+          "description" : "This will be legacy attribute ID if available, else PIM will generate a unique Identifier"
+        },
+        "retailAttributeID" : {
+          "type" : "number",
+          "description" : "RMS attribute ID"
+        },
+        "attributeNameID" : {
+          "type" : "string",
+          "description" : "Unique Identifier from PIM - String (Holds name without space)"
+        },
+        "attributeName" : {
+          "type" : "string",
+          "description" : "Name of the attribute"
+        },
+        "attributeType" : {
+          "type" : "string",
+          "description" : "Defines the type of attribute, sample values: Field, attribute, Operational-System, Operational-Workflow etc."
+        },
+        "groupName" : {
+          "type" : "string",
+          "description" : "This attribute will be used by integration team to check if the attribute is required for DAM. Sample values will be DAM."
+        },
+        "useForTranslation" : {
+          "type" : "boolean"
+        },
+        "useForRefinement" : {
+          "type" : "boolean"
+        },
+        "isMultiValued" : {
+          "type" : "boolean"
+        },
+        "attributeValues" : {
+          "$ref" : "#/definitions/ProductManagementAttributeValue"
+        },
+        "assignmentLevel" : {
+          "type" : "string"
+        },
+        "productManagementLastUpdatedTS" : {
+          "type" : "string",
+          "format" : "date-time",
+          "description" : "Holds the date time for the last update in data store."
+        },
+        "createdDateTime" : {
+          "type" : "string"
+        },
+        "lastUpdatedDateTime" : {
+          "type" : "string"
+        },
+        "deletedDateTime" : {
+          "type" : "string"
+        }
+      }
+    },
+    "Brand" : {
+      "type" : "object",
+      "required" : [ "brandID", "brandName", "classification", "createdDateTime", "lastUpdatedDateTime", "productManagementLastUpdatedTS" ],
+      "properties" : {
+        "brandID" : {
+          "type" : "number",
+          "description" : "Unique key for the Brand class"
+        },
+        "brandName" : {
+          "type" : "string",
+          "description" : "The name of the Brand, e.g. Adidas, ASOS, Nike etc."
+        },
+        "menBrandFacet" : {
+          "type" : "string",
+          "description" : "The Name of the Brand to which the product belongs to be used to create PDP brand copy"
+        },
+        "womenBrandFacet" : {
+          "type" : "string",
+          "description" : "The Name of the Brand to which the product belongs to be used to create PDP brand copy"
+        },
+        "menBrandDescription" : {
+          "type" : "string"
+        },
+        "womenBrandDescription" : {
+          "type" : "string"
+        },
+        "subBrand" : {
+          "$ref" : "#/definitions/subBrand"
+        },
+        "classification" : {
+          "$ref" : "#/definitions/classification"
+        },
+        "createdDateTime" : {
+          "type" : "string"
+        },
+        "lastUpdatedDateTime" : {
+          "type" : "string"
+        },
+        "deletedDateTime" : {
+          "type" : "string"
+        },
+        "productManagementLastUpdatedTS" : {
+          "type" : "string",
+          "format" : "date-time",
+          "description" : "Holds the date time for the last update in data store."
+        }
+      }
+    },
+    "subBrand" : {
+      "type" : "object",
+      "required" : [ "subBrandID", "subBrandName" ],
+      "properties" : {
+        "subBrandID" : {
+          "type" : "number"
+        },
+        "subBrandName" : {
+          "type" : "string"
+        },
+        "menSubBrandFacet" : {
+          "type" : "string"
+        },
+        "womenSubBrandFacet" : {
+          "type" : "string"
+        },
+        "menSubBrandDescription" : {
+          "type" : "string"
+        },
+        "womenSubBrandDescription" : {
+          "type" : "string"
+        }
+      }
+    }
+  }
+}
