@@ -562,17 +562,17 @@ public class ProductRoot {
 	 */
 	//@Generated("SparkTools")
 	public static class Builder {
-		private int productID;
-		private int legacyRestrictionID;
-		private String createdDateTime;
+		private int productID=9999999;
+		private int legacyRestrictionID=9999999;
+		private String createdDateTime="";
 		private String productManagementGender;
 		private String productManagementFitInfo;
 		private String productDetails;
 		private String productName;
-		private int legacyStyleID;
+		private int legacyStyleID=9999999;
 		private String productManagementLastUpdatedTS;
 		private String fabricConstruction;
-		private int legacyMixMatchID;
+		private int legacyMixMatchID=9999999;
 		private Brand brand;
 		private String productManagementPublishedDate;
 		private boolean isInWorkflow;

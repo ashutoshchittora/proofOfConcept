@@ -29,12 +29,20 @@
 			<version>5.3.1.Final</version>
 		</dependency>
 
-<!-- SQL server 12 -->
+		<!-- SQL server 12 -->
 		<dependency>
 			<groupId>com.microsoft.sqlserver</groupId>
 			<artifactId>mssql-jdbc</artifactId>
 			<version>7.0.0.jre8</version>
 		</dependency>
-		
+
+		<!-- https://mvnrepository.com/artifact/io.swagger.codegen.v3/swagger-codegen-cli -->
+		<dependency>
+			<groupId>io.swagger.codegen.v3</groupId>
+			<artifactId>swagger-codegen-cli</artifactId>
+			<version>3.0.8</version>
+		</dependency>
+
+
 	</dependencies>
 </project>
