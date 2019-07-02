@@ -17,7 +17,7 @@ public class ProductRoot {
 
 	private String productDetails;
 
-	private String productName= "Adidas";
+	private String productName;
 
 	private int legacyStyleID;
 
@@ -564,53 +564,53 @@ public class ProductRoot {
 	public static class Builder {
 		private int productID=9999999;
 		private int legacyRestrictionID=9999999;
-		private String createdDateTime="";
-		private String productManagementGender;
-		private String productManagementFitInfo;
-		private String productDetails;
-		private String productName;
+		private String createdDateTime="9999999";
+		private String productManagementGender="9999999";
+		private String productManagementFitInfo="9999999";
+		private String productDetails="9999999";
+		private String productName="9999999";
 		private int legacyStyleID=9999999;
-		private String productManagementLastUpdatedTS;
-		private String fabricConstruction;
+		private String productManagementLastUpdatedTS="9999999";
+		private String fabricConstruction="9999999";
 		private int legacyMixMatchID=9999999;
 		private Brand brand;
-		private String productManagementPublishedDate;
-		private boolean isInWorkflow;
+		private String productManagementPublishedDate="9999999";
+		private boolean isInWorkflow=true;
 		private List<String> facetGender = Collections.emptyList();
 		private List<Integer> webCategoryID = Collections.emptyList();
-		private String retailProductComposition;
-		private int legacyBuyTheLookID;
-		private String customerProductTitle;
+		private String retailProductComposition="9999999";
+		private int legacyBuyTheLookID=9999999;
+		private String customerProductTitle="9999999";
 		private List<Colourways> colourways = Collections.emptyList();
 		private RetailHierarchy retailHierarchy;
-		private String sizeAndFit;
-		private String productManagementComposition;
-		private String PDPLayout;
-		private String lookAfterMe;
-		private String deletedDateTime;
+		private String sizeAndFit="9999999";
+		private String productManagementComposition="9999999";
+		private String PDPLayout="9999999";
+		private String lookAfterMe="9999999";
+		private String deletedDateTime="9999999";
 		private List<String> sampleSize = Collections.emptyList();
-		private String aboutMe;
-		private boolean isExclusive;
+		private String aboutMe="9999999";
+		private boolean isExclusive=true;
 		private List<String> supportedLanguages = Collections.emptyList();
-		private String retailProductTitle;
-		private String retailGender;
-		private boolean isGift;
-		private boolean isHazmat;
+		private String retailProductTitle="9999999";
+		private String retailGender="9999999";
+		private boolean isGift=true;
+		private boolean isHazmat=true;
 		private ProductType productType;
 		private List<String> countryRestriction = Collections.emptyList();
 		private List<ProductAttributes> productAttributes = Collections.emptyList();
-		private String merchandisingSeason;
-		private String productStatus;
-		private int retailBusinessModelID;
-		private String retailStyleID;
-		private String retailBusinessModel;
-		private boolean isReturnable;
-		private String productCode;
-		private String productionStyling;
-		private String productLanguage;
-		private String productManagementPublishedStatus;
-		private String lastUpdatedDateTime;
-		private String packingFormat;
+		private String merchandisingSeason="9999999";
+		private String productStatus="9999999";
+		private int retailBusinessModelID=9999999;
+		private String retailStyleID="9999999";
+		private String retailBusinessModel="9999999";
+		private boolean isReturnable=true;
+		private String productCode="9999999";
+		private String productionStyling="9999999";
+		private String productLanguage="9999999";
+		private String productManagementPublishedStatus="9999999";
+		private String lastUpdatedDateTime="9999999";
+		private String packingFormat="9999999";
 
 		Builder() {
 		}

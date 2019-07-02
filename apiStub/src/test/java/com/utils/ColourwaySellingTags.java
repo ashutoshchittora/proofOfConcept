@@ -1,16 +1,17 @@
 package com.utils;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.joda.time.DateTime;
 
 class ColourwaySellingTags {
-	private int sellingTagID;
+	private int sellingTagID=9999999;
 
-	private String sellingTagName;
+	private String sellingTagName="9999999";
 
-	private DateTime effectiveFromDate;
+	private DateTime effectiveFromDate=new DateTime();
 
-	private DateTime effectiveToDate;
+	private DateTime effectiveToDate=new DateTime();
 
 	public void setSellingTagID(int sellingTagID) {
 		this.sellingTagID = sellingTagID;

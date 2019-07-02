@@ -1,10 +1,10 @@
 package com.utils;
 class AttributeValues {
-	private int valueID;
+	private int valueID=9999999;
 
-	private String value;
+	private String value="9999999";
 
-	private String unitOfMeasure;
+	private String unitOfMeasure="9999999";
 
 	public void setValueID(int valueID) {
 		this.valueID = valueID;

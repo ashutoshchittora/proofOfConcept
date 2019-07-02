@@ -2,17 +2,17 @@ package com.utils;
 import java.util.List;
 
 class VariantStoreData {
-	private int retailStoreID;
+	private int retailStoreID=9999999;
 
-	private String digitalStoreID;
+	private String digitalStoreID="9999999";
 
-	private String availableToSellDate;
+	private String availableToSellDate="9999999";
 
-	private String dateOnSite;
+	private String dateOnSite="9999999";
 
-	private boolean isOnQuery;
+	private boolean isOnQuery=true;
 
-	private String lastUpdatedDateTime;
+	private String lastUpdatedDateTime="9999999";
 
 	public void setRetailStoreID(int retailStoreID) {
 		this.retailStoreID = retailStoreID;

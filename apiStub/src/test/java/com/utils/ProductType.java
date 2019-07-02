@@ -2,9 +2,9 @@ package com.utils;
 import java.util.List;
 
 class ProductType {
-	private int productTypeID;
+	private int productTypeID=9999999;
 
-	private String productTypeName;
+	private String productTypeName="9999999";
 
 	public void setProductTypeID(int productTypeID) {
 		this.productTypeID = productTypeID;

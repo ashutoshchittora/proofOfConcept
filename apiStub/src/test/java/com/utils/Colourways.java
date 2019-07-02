@@ -2,29 +2,29 @@ package com.utils;
 import java.util.List;
 
 class Colourways {
-	private int colourwayID;
+	private int colourwayID=9999999;
 
-	private String colourwayName;
+	private String colourwayName="9999999";
 
-	private boolean isPrimaryColourway;
+	private boolean isPrimaryColourway=true;
 
-	private String retailOptionID;
+	private String retailOptionID="9999999";
 
-	private String retailColourwayTitle;
+	private String retailColourwayTitle="9999999";
 
-	private String customerColourwayTitle;
+	private String customerColourwayTitle="9999999";
 
-	private String legacyOptionID;
+	private String legacyOptionID="9999999";
 
-	private String colourwayStatus;
+	private String colourwayStatus="9999999";
 
-	private String createdDateTime;
+	private String createdDateTime="9999999";
 
-	private String lastUpdatedDateTime;
+	private String lastUpdatedDateTime="9999999";
 
-	private String deletedDateTime;
+	private String deletedDateTime="9999999";
 
-	private String productManagementPublishedDate;
+	private String productManagementPublishedDate="9999999";
 
 	private List<ColourwayAttributes> colourwayAttributes;
 
@@ -32,45 +32,45 @@ class Colourways {
 
 	private ProductionAsset productionAsset;
 
-	private String retailColourID;
+	private String retailColourID="9999999";
 
-	private String supplierColour;
+	private String supplierColour="9999999";
 
-	private int refinementColourID;
+	private int refinementColourID=9999999;
 
-	private String refinementColour;
+	private String refinementColour="9999999";
 
-	private String customerFriendlyColour;
+	private String customerFriendlyColour="9999999";
 
-	private String productManagementPublishedStatus;
+	private String productManagementPublishedStatus="9999999";
 
 	private List<Variants> variants;
 
-	private String sampleStatus;
+	private String sampleStatus="9999999";
 
 	private List<String> sampleSize;
 
-	private boolean isStylingItem;
+	private boolean isStylingItem=true;
 
-	private boolean isInWorkflow;
+	private boolean isInWorkflow=true;
 
-	private String countryOfManufacture;
+	private String countryOfManufacture="9999999";
 
-	private String fabricComposition;
+	private String fabricComposition="9999999";
 
 	private List<BuyTheLookGroup> buyTheLookGroup;
 
-	private int modelID;
+	private int modelID=9999999;
 
-	private String modelName;
+	private String modelName="9999999";
 
-	private String modelLastUpdatedDate;
+	private String modelLastUpdatedDate="9999999";
 
-	private String modelTenureUsageDate;
+	private String modelTenureUsageDate="9999999";
 
-	private String retailReportingColourID;
+	private String retailReportingColourID="9999999";
 
-	private String retailReportingColour;
+	private String retailReportingColour="9999999";
 
 	public void setColourwayID(int colourwayID) {
 		this.colourwayID = colourwayID;

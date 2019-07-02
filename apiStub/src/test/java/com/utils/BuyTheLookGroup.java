@@ -2,11 +2,11 @@ package com.utils;
 import java.util.List;
 
 class BuyTheLookGroup {
-	private int productID;
+	private int productID=9999999;
 
-	private int colourwayID;
+	private int colourwayID=9999999;
 
-	private int sequence;
+	private int sequence=9999999;
 
 	public void setProductID(int productID) {
 		this.productID = productID;

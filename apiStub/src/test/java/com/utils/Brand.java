@@ -4,17 +4,17 @@ import java.util.List;
 import org.joda.time.DateTime;
 
 class Brand {
-	private int brandID;
+	private int brandID=9999999;
 
-	private String brandName;
+	private String brandName="9999999";
 
-	private int subBrandID;
+	private int subBrandID=9999999;
 
-	private String subBrandName;
+	private String subBrandName="9999999";
 
-	private String brandFacet;
+	private String brandFacet="9999999";
 
-	private String brandDescriptionPDP;
+	private String brandDescriptionPDP="9999999";
 
 	public void setBrandID(int brandID) {
 		this.brandID = brandID;

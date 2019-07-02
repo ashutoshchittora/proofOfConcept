@@ -2,15 +2,15 @@ package com.utils;
 import java.util.List;
 
 class SpinSet {
-	private String assetID;
+	private String assetID="9999999";
 
-	private String assetName;
+	private String assetName="9999999";
 
-	private String assetManagementPublishedURL;
+	private String assetManagementPublishedURL="9999999";
 
-	private String assetManagementPrimaryURL;
+	private String assetManagementPrimaryURL="9999999";
 
-	private String productManagementAssetURL;
+	private String productManagementAssetURL="9999999";
 
 	private List<Integer> modelID;
 

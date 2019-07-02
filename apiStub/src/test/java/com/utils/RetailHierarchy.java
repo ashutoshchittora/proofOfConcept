@@ -2,41 +2,41 @@ package com.utils;
 import java.util.List;
 
 class RetailHierarchy {
-	private int legacyDepartmentID;
+	private int legacyDepartmentID=9999999;
 
-	private String legacyDepartmentName;
+	private String legacyDepartmentName="9999999";
 
-	private int legacyDivisionID;
+	private int legacyDivisionID=9999999;
 
-	private String legacyDivision;
+	private String legacyDivision="9999999";
 
-	private int legacyCategoryID;
+	private int legacyCategoryID=9999999;
 
-	private String legacyCategoryName;
+	private String legacyCategoryName="9999999";
 
-	private int retailDepartmentID;
+	private int retailDepartmentID=9999999;
 
-	private String retailDepartmentName;
+	private String retailDepartmentName="9999999";
 
-	private int retailClassID;
+	private int retailClassID=9999999;
 
-	private String retailClassName;
+	private String retailClassName="9999999";
 
-	private int retailSubClassID;
+	private int retailSubClassID=9999999;
 
-	private String retailSubClassName;
+	private String retailSubClassName="9999999";
 
-	private int retailGroupID;
+	private int retailGroupID=9999999;
 
-	private String retailGroupName;
+	private String retailGroupName="9999999";
 
-	private int retailProductGroupID;
+	private int retailProductGroupID=9999999;
 
-	private String retailProductGroupName;
+	private String retailProductGroupName="9999999";
 
-	private int retailBuyingSubGroupID;
+	private int retailBuyingSubGroupID=9999999;
 
-	private String retailBuyingSubGroup;
+	private String retailBuyingSubGroup="9999999";
 
 	public void setLegacyDepartmentID(int legacyDepartmentID) {
 		this.legacyDepartmentID = legacyDepartmentID;

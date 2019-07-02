@@ -2,61 +2,61 @@ package com.utils;
 import java.util.List;
 
 class Variants {
-	private int variantID;
+	private int variantID=9999999;
 
-	private String variantName;
+	private String variantName="9999999";
 
-	private String retailSKUID;
+	private String retailSKUID="9999999";
 
-	private String retailVariantTitle;
+	private String retailVariantTitle="9999999";
 
-	private String variantStatus;
+	private String variantStatus="9999999";
 
-	private String createdDateTime;
+	private String createdDateTime="9999999";
 
-	private String lastUpdatedDateTime;
+	private String lastUpdatedDateTime="9999999";
 
-	private String deletedDateTime;
+	private String deletedDateTime="9999999";
+	
+	private String SKUID="9999999";
 
-	private String SKUID;
+	private int legacySKUID=9999999;
 
-	private int legacySKUID;
+	private String supplierRef="9999999";
 
-	private String supplierRef;
+	private int legacyWorkflowStatus=9999999;
 
-	private int legacyWorkflowStatus;
+	private String EAN="9999999";
 
-	private String EAN;
+	private int sizeDescriptionID=9999999;
 
-	private int sizeDescriptionID;
+	private String supplierSize="9999999";
 
-	private String supplierSize;
+	private int brandSizeID=9999999;
 
-	private int brandSizeID;
+	private String brandSize="9999999";
 
-	private String brandSize;
+	private int refinementSizeID=9999999;
 
-	private int refinementSizeID;
+	private String refinementSize="9999999";
 
-	private String refinementSize;
+	private int sizeOrder=9999999;
 
-	private int sizeOrder;
-
-	private String productManagementPublishedStatus;
+	private String productManagementPublishedStatus="9999999";
 
 	private List<VariantStoreData> variantStoreData;
 
-	private int variantSizeID;
+	private int variantSizeID=9999999;
 
-	private String retailSizeID;
+	private String retailSizeID="9999999";
 
-	private String retailSize;
+	private String retailSize="9999999";
 
-	private String retailSizeGroupID;
+	private String retailSizeGroupID="9999999";
 
-	private String retailSizeGroup;
+	private String retailSizeGroup="9999999";
 
-	private String commodityCode;
+	private String commodityCode="9999999";
 
 	public void setVariantID(int variantID) {
 		this.variantID = variantID;

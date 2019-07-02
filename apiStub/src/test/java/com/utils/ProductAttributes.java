@@ -2,9 +2,9 @@ package com.utils;
 import java.util.List;
 
 class ProductAttributes {
-	private int attributeID;
+	private int attributeID=9999999;
 
-	private String attributeName;
+	private String attributeName="9999999";
 
 	private List<AttributeValues> attributeValues;
 
